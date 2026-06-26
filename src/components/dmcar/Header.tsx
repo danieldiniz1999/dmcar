@@ -7,7 +7,7 @@ const WHATSAPP_HEADER = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pe
 
 const navItems = [
   { label: "Início", href: "/" },
-  { label: "Estoque", href: "/showroom" },
+  { label: "Showroom", href: "/showroom" },
   { label: "Sobre", href: "/#historia" },
   { label: "Consultores", href: "/#consultores" },
   { label: "Depoimentos", href: "/#depoimentos" },
