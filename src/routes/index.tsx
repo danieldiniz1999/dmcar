@@ -225,7 +225,7 @@ function Estoque() {
               <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
                 <div className="relative aspect-[4/3] bg-black overflow-hidden">
                   {c.img ? (
-                    <img src={c.img} alt={c.modelo} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={c.img} alt={c.modelo} loading="lazy" decoding="async" width={800} height={600} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
                   )}
