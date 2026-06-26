@@ -9,6 +9,8 @@ export const Route = createFileRoute("/privacidade")({
     meta: [
       { title: "Política de Privacidade | DMCAR Veículos Multimarcas" },
       { name: "description", content: "Política de Privacidade da DMCAR Veículos Multimarcas em conformidade com a LGPD." },
+      { property: "og:title", content: "Política de Privacidade | DMCAR" },
+      { property: "og:description", content: "Como a DMCAR trata seus dados, em conformidade com a LGPD." },
       { property: "og:url", content: "https://dmcar.site/privacidade" },
     ],
     links: [{ rel: "canonical", href: "https://dmcar.site/privacidade" }],
