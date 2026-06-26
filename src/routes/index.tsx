@@ -285,14 +285,8 @@ function Historia() {
           ))}
         </div>
 
-        <Reveal className="mt-16">
-          <div className="rounded-2xl bg-gold text-black p-8 md:p-10 text-center">
-            <p className="font-display text-2xl md:text-3xl leading-tight">
-              3.000+ veículos vendidos. 20 anos de história. E a certeza de que o melhor ainda está por vir.
-            </p>
-          </div>
-        </Reveal>
       </div>
+
     </section>
   );
 }
