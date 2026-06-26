@@ -1,7 +1,9 @@
+export const WHATSAPP_URL = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!";
+
 export function WhatsAppFloat() {
   return (
     <a
-      href="https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!"
+      href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp da DMCAR"
