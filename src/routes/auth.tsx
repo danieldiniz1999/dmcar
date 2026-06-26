@@ -11,7 +11,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +26,7 @@ function AuthPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true); setError(null); setInfo(null);
+    const email = `${username.trim().toLowerCase()}@dmcar.local`;
     try {
       if (mode === "signin") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -64,8 +65,8 @@ function AuthPage() {
 
           <form onSubmit={submit} className="space-y-4">
             <div>
-              <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">E-mail</label>
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-lg bg-[#141414] border border-border px-4 py-3 text-sm text-white focus:outline-none focus:border-gold" />
+              <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">Usuário</label>
+              <input type="text" required autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full rounded-lg bg-[#141414] border border-border px-4 py-3 text-sm text-white focus:outline-none focus:border-gold" />
             </div>
             <div>
               <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">Senha</label>
