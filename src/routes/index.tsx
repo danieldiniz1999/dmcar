@@ -319,12 +319,15 @@ function Missao() {
         </div>
         <Reveal delay={200}>
           <div className="rounded-2xl bg-surface border border-border p-8">
-            <div className="text-xs uppercase tracking-widest text-gold mb-4">Valores</div>
-            <div className="flex flex-wrap gap-2">
+            <div className="text-xs uppercase tracking-widest text-gold mb-6">Valores</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
               {valores.map(v => (
-                <span key={v} className="inline-flex items-center gap-2 rounded-full bg-gold/10 border border-gold/30 px-4 py-2 text-sm text-white/90">
-                  <Star className="w-3.5 h-3.5 text-gold fill-gold" /> {v}
-                </span>
+                <div key={v} className="flex items-center gap-3 rounded-xl bg-gold/5 border border-gold/20 px-4 py-4 text-sm text-white/90 hover:border-gold/50 hover:bg-gold/10 transition-colors">
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center">
+                    <Star className="w-4 h-4 text-gold fill-gold" />
+                  </span>
+                  <span className="leading-snug">{v}</span>
+                </div>
               ))}
             </div>
           </div>
