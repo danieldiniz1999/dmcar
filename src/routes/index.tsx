@@ -9,10 +9,10 @@ import { Reveal } from "@/components/dmcar/Reveal";
 import { StatNumber } from "@/components/dmcar/StatNumber";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import heroCar from "@/assets/hero-car.jpg";
-import carSedan from "@/assets/car-sedan.jpg";
-import carSuv from "@/assets/car-suv.jpg";
-import carHatch from "@/assets/car-hatch.jpg";
+import heroCar from "@/assets/hero-car.webp";
+import carSedan from "@/assets/car-sedan.webp";
+import carSuv from "@/assets/car-suv.webp";
+import carHatch from "@/assets/car-hatch.webp";
 import italoFoto from "@/assets/italo.jpg.asset.json";
 import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
 
