@@ -184,11 +184,23 @@ function Estoque() {
       const list = data ?? [];
       setCars(list);
       const map: Record<string, string> = {};
+      const TTL = 12 * 60 * 60 * 1000; // 12h
       await Promise.all(list.map(async (c) => {
         const path = c.fotos?.[0];
         if (!path) return;
+        const cacheKey = `dmcar:img:${path}`;
+        try {
+          const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
+          if (raw) {
+            const parsed = JSON.parse(raw) as { url: string; exp: number };
+            if (parsed.exp > Date.now()) { map[c.id] = parsed.url; return; }
+          }
+        } catch {}
         const { data: signed } = await supabase.storage.from("car-images").createSignedUrl(path, 60 * 60 * 24);
-        if (signed?.signedUrl) map[c.id] = signed.signedUrl;
+        if (signed?.signedUrl) {
+          map[c.id] = signed.signedUrl;
+          try { localStorage.setItem(cacheKey, JSON.stringify({ url: signed.signedUrl, exp: Date.now() + TTL })); } catch {}
+        }
       }));
       setImages(map);
       setLoaded(true);
