@@ -14,6 +14,8 @@ import carSedan from "@/assets/car-sedan.jpg";
 import carSuv from "@/assets/car-suv.jpg";
 import carHatch from "@/assets/car-hatch.jpg";
 import italoFoto from "@/assets/italo.jpg.asset.json";
+import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
+
 
 
 type CarRow = Database["public"]["Tables"]["cars"]["Row"];
@@ -334,8 +336,9 @@ function Missao() {
 
 function Consultores() {
   const list = [
-    { nome: "Ítalo", link: WA_ITALO, foto: italoFoto.url },
-    { nome: "Wallyson", link: WA_WALLYSON, foto: null as string | null },
+    { nome: "Ítalo", link: WA_ITALO, foto: italoFoto.url as string | null },
+    { nome: "Wallyson", link: WA_WALLYSON, foto: wallysonFoto.url as string | null },
+
   ];
   return (
     <section id="consultores" className="py-24">
