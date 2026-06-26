@@ -70,7 +70,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
-        <img src={heroCar} alt="" className="w-full h-full object-cover opacity-50" width={1920} height={1080} />
+        <img src={heroCar} alt="" className="w-full h-full object-cover opacity-50" width={1920} height={1080} fetchPriority="high" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
       </div>
       <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-24 md:pt-28 md:pb-32">
