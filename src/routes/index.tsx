@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Search, CreditCard, FileText, Handshake, MapPin, Phone, Mail, Wrench, Shield, Settings, Star, Calendar, Gauge, Cog, Palette, User, ArrowRight } from "lucide-react";
 import { Header } from "@/components/dmcar/Header";
 import { Footer } from "@/components/dmcar/Footer";
-import { WhatsAppFloat } from "@/components/dmcar/WhatsAppFloat";
+import { WhatsAppFloat, WHATSAPP_URL } from "@/components/dmcar/WhatsAppFloat";
 import { CookieBanner } from "@/components/dmcar/CookieBanner";
 import { Reveal } from "@/components/dmcar/Reveal";
 import { StatNumber } from "@/components/dmcar/StatNumber";
@@ -85,7 +85,7 @@ function Hero() {
           </p>
           <div className="hero-rise mt-8 flex flex-col sm:flex-row gap-3" style={{ animationDelay: "450ms" }}>
             <Link to="/showroom" className="btn-primary rounded-full px-7 py-3.5 text-sm text-center">Ver Estoque</Link>
-            <a href={WA_LOJA} target="_blank" rel="noopener noreferrer" className="btn-outline rounded-full px-7 py-3.5 text-sm text-center">Falar com um Consultor</a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-outline rounded-full px-7 py-3.5 text-sm text-center">Falar com um Consultor</a>
           </div>
         </div>
 
