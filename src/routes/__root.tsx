@@ -83,6 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "google-site-verification", content: "qvZuc7ZTzQiVroL5U4We7-LJDXa27S0_ccnvmXAbZqk" },
       { title: "DMCAR Veículos Multimarcas | Seminovos em Fortaleza" },
       { name: "description", content: "A DMCAR é referência em seminovos em Fortaleza/CE. Mais de 3.000 veículos vendidos, 2 lojas, oficina própria e garantia de 90 dias." },
       { name: "author", content: "DMCAR Veículos Multimarcas" },
