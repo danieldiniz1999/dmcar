@@ -1,0 +1,187 @@
+import { useEffect, useState } from "react";
+import { ArrowLeft, Upload, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+
+type Car = Database["public"]["Tables"]["cars"]["Row"];
+
+const MARCAS = ["Toyota", "Honda", "Volkswagen", "Chevrolet", "Hyundai", "Fiat", "Jeep", "Renault", "Nissan", "Ford", "Kia", "Mitsubishi", "BMW", "Mercedes-Benz", "Audi", "Outra"];
+const CAMBIOS = ["Manual", "Automático", "Automatizado", "CVT"];
+const COMBUSTIVEIS = ["Flex", "Gasolina", "Diesel", "Híbrido", "Elétrico"];
+
+export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: () => void; onSaved: () => void }) {
+  const [form, setForm] = useState({
+    marca: car?.marca ?? "Toyota",
+    modelo: car?.modelo ?? "",
+    ano: car?.ano ?? new Date().getFullYear(),
+    km: car?.km ?? 0,
+    cambio: car?.cambio ?? "Automático",
+    combustivel: car?.combustivel ?? "Flex",
+    cor: car?.cor ?? "",
+    preco: car?.preco ?? 0,
+    descricao: car?.descricao ?? "",
+    destaque: car?.destaque ?? false,
+    vendido: car?.vendido ?? false,
+  });
+  const [existingFotos, setExistingFotos] = useState<string[]>(car?.fotos ?? []);
+  const [previews, setPreviews] = useState<Record<string, string>>({});
+  const [newFiles, setNewFiles] = useState<File[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const map: Record<string, string> = {};
+      await Promise.all(existingFotos.map(async (path) => {
+        const { data } = await supabase.storage.from("car-images").createSignedUrl(path, 3600);
+        if (data?.signedUrl) map[path] = data.signedUrl;
+      }));
+      setPreviews(map);
+    })();
+  }, [existingFotos]);
+
+  function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    setNewFiles((prev) => [...prev, ...files]);
+  }
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true); setError(null);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Sessão expirada");
+
+      const uploadedPaths: string[] = [];
+      for (const file of newFiles) {
+        const ext = file.name.split(".").pop() ?? "jpg";
+        const path = `${session.user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+        const { error: upErr } = await supabase.storage.from("car-images").upload(path, file, { contentType: file.type });
+        if (upErr) throw upErr;
+        uploadedPaths.push(path);
+      }
+
+      const fotos = [...existingFotos, ...uploadedPaths];
+      const payload = { ...form, fotos, preco: Number(form.preco), ano: Number(form.ano), km: Number(form.km) };
+
+      if (car) {
+        const { error } = await supabase.from("cars").update(payload).eq("id", car.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("cars").insert(payload);
+        if (error) throw error;
+      }
+      onSaved();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao salvar");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function removeExisting(path: string) {
+    setExistingFotos((prev) => prev.filter((p) => p !== path));
+  }
+  function removeNew(idx: number) {
+    setNewFiles((prev) => prev.filter((_, i) => i !== idx));
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-[#0F0F0F] sticky top-0 z-10">
+        <div className="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
+          <button onClick={onClose} className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-gold">
+            <ArrowLeft className="w-4 h-4" /> Voltar
+          </button>
+          <h1 className="font-display text-xl text-white">{car ? "Editar carro" : "Novo carro"}</h1>
+          <div className="w-16" />
+        </div>
+      </header>
+
+      <form onSubmit={submit} className="mx-auto max-w-4xl px-6 py-10 space-y-6">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <Field label="Marca">
+            <select value={form.marca} onChange={(e) => setForm({ ...form, marca: e.target.value })} className="input">
+              {MARCAS.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </Field>
+          <Field label="Modelo"><input required value={form.modelo} onChange={(e) => setForm({ ...form, modelo: e.target.value })} className="input" placeholder="Ex: Corolla XEi 2.0" /></Field>
+          <Field label="Ano"><input type="number" required min={1980} max={new Date().getFullYear() + 1} value={form.ano} onChange={(e) => setForm({ ...form, ano: Number(e.target.value) })} className="input" /></Field>
+          <Field label="Km"><input type="number" required min={0} value={form.km} onChange={(e) => setForm({ ...form, km: Number(e.target.value) })} className="input" /></Field>
+          <Field label="Câmbio">
+            <select value={form.cambio} onChange={(e) => setForm({ ...form, cambio: e.target.value })} className="input">
+              {CAMBIOS.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </Field>
+          <Field label="Combustível">
+            <select value={form.combustivel} onChange={(e) => setForm({ ...form, combustivel: e.target.value })} className="input">
+              {COMBUSTIVEIS.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </Field>
+          <Field label="Cor"><input required value={form.cor} onChange={(e) => setForm({ ...form, cor: e.target.value })} className="input" /></Field>
+          <Field label="Preço (R$)"><input type="number" required min={0} step="100" value={form.preco} onChange={(e) => setForm({ ...form, preco: Number(e.target.value) })} className="input" /></Field>
+        </div>
+
+        <Field label="Descrição">
+          <textarea rows={4} value={form.descricao ?? ""} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className="input resize-y" placeholder="Detalhes, opcionais, estado de conservação..." />
+        </Field>
+
+        <div className="flex flex-wrap gap-5">
+          <label className="inline-flex items-center gap-2 text-sm text-white/90">
+            <input type="checkbox" checked={form.destaque} onChange={(e) => setForm({ ...form, destaque: e.target.checked })} className="accent-gold w-4 h-4" />
+            Destacar na home
+          </label>
+          <label className="inline-flex items-center gap-2 text-sm text-white/90">
+            <input type="checkbox" checked={form.vendido} onChange={(e) => setForm({ ...form, vendido: e.target.checked })} className="accent-gold w-4 h-4" />
+            Marcar como vendido
+          </label>
+        </div>
+
+        <div>
+          <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Fotos</label>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+            {existingFotos.map((p) => (
+              <div key={p} className="relative aspect-square rounded-lg overflow-hidden border border-border bg-black">
+                {previews[p] && <img src={previews[p]} alt="" className="w-full h-full object-cover" />}
+                <button type="button" onClick={() => removeExisting(p)} className="absolute top-1 right-1 bg-black/70 rounded-full p-1 text-white hover:bg-red-600">
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+            {newFiles.map((f, i) => (
+              <div key={i} className="relative aspect-square rounded-lg overflow-hidden border border-border bg-black">
+                <img src={URL.createObjectURL(f)} alt="" className="w-full h-full object-cover" />
+                <button type="button" onClick={() => removeNew(i)} className="absolute top-1 right-1 bg-black/70 rounded-full p-1 text-white hover:bg-red-600">
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+            <label className="aspect-square rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-gold text-muted-foreground hover:text-gold transition-colors">
+              <Upload className="w-5 h-5" />
+              <span className="text-[10px] uppercase tracking-widest">Adicionar</span>
+              <input type="file" accept="image/*" multiple onChange={handleFiles} className="hidden" />
+            </label>
+          </div>
+        </div>
+
+        {error && <p className="text-sm text-red-400">{error}</p>}
+
+        <div className="flex justify-end gap-3 pt-4 border-t border-border">
+          <button type="button" onClick={onClose} className="btn-outline rounded-full px-5 py-2.5 text-sm">Cancelar</button>
+          <button type="submit" disabled={saving} className="btn-primary rounded-full px-6 py-2.5 text-sm disabled:opacity-50">
+            {saving ? "Salvando..." : car ? "Salvar alterações" : "Cadastrar carro"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">{label}</span>
+      {children}
+    </label>
+  );
+}
