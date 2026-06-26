@@ -33,6 +33,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Mais de 3.000 veículos vendidos, 2 lojas e oficina própria. Seu próximo carro é aqui." },
       { property: "og:url", content: "https://dmcar.site/" },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://dmcar.site/og-cover.jpg" },
+      { name: "twitter:image", content: "https://dmcar.site/og-cover.jpg" },
     ],
     links: [
       { rel: "canonical", href: "https://dmcar.site/" },
