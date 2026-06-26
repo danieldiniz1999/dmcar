@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Facebook, Mail } from "lucide-react";
+import { Instagram, Mail } from "lucide-react";
 
 const WA = "https://wa.me/5585987198049";
 
@@ -18,10 +18,9 @@ export function Footer() {
               <Instagram className="w-4 h-4" />
             </a>
             <a href={WA} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="p-2 rounded-full border border-border hover:border-gold hover:text-gold transition-colors">
-              <svg viewBox="0 0 32 32" className="w-4 h-4 fill-current"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.468 2.027 7.77L0 32l8.43-2.01A15.934 15.934 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0z"/></svg>
-            </a>
-            <a href="#" aria-label="Facebook" className="p-2 rounded-full border border-border hover:border-gold hover:text-gold transition-colors">
-              <Facebook className="w-4 h-4" />
+              <svg viewBox="0 0 32 32" className="w-4 h-4 fill-current" aria-hidden="true">
+                <path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.187-.46.244-.948.244-1.434 0-.085 0-.215-.058-.272-.116-.144-1.46-.86-1.633-.86zm-2.42 7.534h-.014c-1.49 0-2.95-.402-4.222-1.162l-.302-.18-3.13.82.834-3.05-.2-.314a8.265 8.265 0 0 1-1.276-4.42c0-4.59 3.745-8.334 8.348-8.334 2.235 0 4.32.87 5.896 2.435a8.27 8.27 0 0 1 2.444 5.898c-.013 4.59-3.756 8.336-8.378 8.336z m7.087-15.42A9.99 9.99 0 0 0 16.69 6.39c-5.523 0-10.026 4.504-10.04 10.027 0 1.76.46 3.49 1.348 5.018L6.566 26l4.682-1.232a10.022 10.022 0 0 0 4.79 1.218h.015c5.52 0 10.025-4.504 10.04-10.027a9.946 9.946 0 0 0-2.91-7.095z"/>
+              </svg>
             </a>
           </div>
         </div>
