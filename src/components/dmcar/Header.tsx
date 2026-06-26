@@ -50,7 +50,7 @@ export function Header() {
 
       {/* Drawer */}
       <aside
-        className={`fixed right-0 top-0 z-50 h-full w-80 max-w-[85vw] bg-[#0A0A0A] border-l border-border shadow-2xl flex flex-col transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed left-0 top-0 z-50 h-full w-80 max-w-[85vw] bg-[#0A0A0A] border-r border-border shadow-2xl flex flex-col transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
         role="dialog"
         aria-modal="true"
         aria-label="Menu de navegação"
@@ -71,7 +71,7 @@ export function Header() {
             {navItems.map((item, i) => (
               <li
                 key={item.label}
-                className={`transform transition-all duration-500 ease-out ${open ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
+                className={`transform transition-all duration-500 ease-out ${open ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"}`}
                 style={{ transitionDelay: open ? `${120 + i * 60}ms` : "0ms" }}
               >
                 <a
