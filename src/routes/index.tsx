@@ -33,8 +33,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Mais de 3.000 veículos vendidos, 2 lojas e oficina própria. Seu próximo carro é aqui." },
       { property: "og:url", content: "https://dmcar.site/" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://dmcar.site/og-cover.jpg" },
-      { name: "twitter:image", content: "https://dmcar.site/og-cover.jpg" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/60362212-c0c7-4d84-a61f-8d500156b6f5/id-preview-de7ab9ca--1ac273c2-1af2-47d7-b060-822da6bbb27c.lovable.app-1782438766250.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/60362212-c0c7-4d84-a61f-8d500156b6f5/id-preview-de7ab9ca--1ac273c2-1af2-47d7-b060-822da6bbb27c.lovable.app-1782438766250.png" },
     ],
     links: [
       { rel: "canonical", href: "https://dmcar.site/" },
