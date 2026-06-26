@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShowroomRouteImport } from './routes/showroom'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as LinksRouteImport } from './routes/links'
@@ -16,6 +17,11 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShowroomRoute = ShowroomRouteImport.update({
   id: '/showroom',
   path: '/showroom',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,12 +79,27 @@ export interface FileRoutesById {
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/auth' | '/links' | '/privacidade' | '/showroom'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/links'
+    | '/privacidade'
+    | '/showroom'
+    | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/auth' | '/links' | '/privacidade' | '/showroom'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/links'
+    | '/privacidade'
+    | '/showroom'
+    | '/sitemap.xml'
   id:
     | '__root__'
     | '/'
@@ -85,6 +108,7 @@ export interface FileRouteTypes {
     | '/links'
     | '/privacidade'
     | '/showroom'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,10 +118,18 @@ export interface RootRouteChildren {
   LinksRoute: typeof LinksRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   ShowroomRoute: typeof ShowroomRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/showroom': {
       id: '/showroom'
       path: '/showroom'
@@ -150,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   LinksRoute: LinksRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   ShowroomRoute: ShowroomRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
