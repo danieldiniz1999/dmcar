@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShowroomRouteImport } from './routes/showroom'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as LinksRouteImport } from './routes/links'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ShowroomRoute = ShowroomRouteImport.update({
@@ -29,6 +31,16 @@ const LinksRoute = LinksRouteImport.update({
   path: '/links',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +49,16 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
@@ -50,20 +66,31 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/links' | '/privacidade' | '/showroom'
+  fullPaths: '/' | '/admin' | '/auth' | '/links' | '/privacidade' | '/showroom'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/links' | '/privacidade' | '/showroom'
-  id: '__root__' | '/' | '/links' | '/privacidade' | '/showroom'
+  to: '/' | '/admin' | '/auth' | '/links' | '/privacidade' | '/showroom'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/links'
+    | '/privacidade'
+    | '/showroom'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AuthRoute: typeof AuthRoute
   LinksRoute: typeof LinksRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   ShowroomRoute: typeof ShowroomRoute
@@ -92,6 +119,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LinksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +145,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AuthRoute: AuthRoute,
   LinksRoute: LinksRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   ShowroomRoute: ShowroomRoute,
