@@ -36,7 +36,6 @@ function HomePage() {
     <div className="min-h-screen bg-background">
       <Header />
       <Hero />
-      <Stats />
       <Diferenciais />
       <Estoque />
       <Historia />
