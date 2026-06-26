@@ -154,13 +154,45 @@ function Diferenciais() {
   );
 }
 
-const cars = [
-  { img: carSedan, badge: "Destaque", badgeColor: "bg-gold text-black", model: "Toyota Corolla XEi 2022", ano: "2022", km: "32.500 km", cambio: "Automático", cor: "Prata", preco: "R$ 119.900" },
-  { img: carSuv, badge: "Novo", badgeColor: "bg-white text-black", model: "Jeep Compass Limited 2023", ano: "2023", km: "18.900 km", cambio: "Automático", cor: "Cinza", preco: "R$ 159.900" },
-  { img: carHatch, badge: "Destaque", badgeColor: "bg-gold text-black", model: "Hyundai HB20 Comfort 2022", ano: "2022", km: "24.100 km", cambio: "Manual", cor: "Vermelho", preco: "R$ 72.900" },
+const fallbackCars = [
+  { id: "fb1", img: carSedan, isFallback: true, destaque: true, badgeText: "Destaque", marca: "Toyota", modelo: "Toyota Corolla XEi 2022", ano: 2022, km: 32500, cambio: "Automático", cor: "Prata", preco: 119900 },
+  { id: "fb2", img: carSuv, isFallback: true, destaque: false, badgeText: "Novo", marca: "Jeep", modelo: "Jeep Compass Limited 2023", ano: 2023, km: 18900, cambio: "Automático", cor: "Cinza", preco: 159900 },
+  { id: "fb3", img: carHatch, isFallback: true, destaque: true, badgeText: "Destaque", marca: "Hyundai", modelo: "Hyundai HB20 Comfort 2022", ano: 2022, km: 24100, cambio: "Manual", cor: "Vermelho", preco: 72900 },
 ];
 
 function Estoque() {
+  const [cars, setCars] = useState<CarRow[]>([]);
+  const [images, setImages] = useState<Record<string, string>>({});
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("cars")
+        .select("*")
+        .eq("vendido", false)
+        .order("destaque", { ascending: false })
+        .order("created_at", { ascending: false })
+        .limit(3);
+      const list = data ?? [];
+      setCars(list);
+      const map: Record<string, string> = {};
+      await Promise.all(list.map(async (c) => {
+        const path = c.fotos?.[0];
+        if (!path) return;
+        const { data: signed } = await supabase.storage.from("car-images").createSignedUrl(path, 60 * 60 * 24);
+        if (signed?.signedUrl) map[c.id] = signed.signedUrl;
+      }));
+      setImages(map);
+      setLoaded(true);
+    })();
+  }, []);
+
+  const useReal = loaded && cars.length > 0;
+  const items = useReal
+    ? cars.map(c => ({ id: c.id, isFallback: false as const, img: images[c.id], destaque: c.destaque, badgeText: c.destaque ? "Destaque" : "Novo", marca: c.marca, modelo: `${c.marca} ${c.modelo} ${c.ano}`, ano: c.ano, km: c.km, cambio: c.cambio, cor: c.cor, preco: Number(c.preco) }))
+    : fallbackCars;
+
   return (
     <section id="estoque" className="bg-[#0F0F0F] py-24">
       <div className="mx-auto max-w-7xl px-6">
@@ -169,24 +201,28 @@ function Estoque() {
           <p className="mt-3 text-muted-foreground">Uma seleção dos melhores veículos disponíveis agora</p>
         </Reveal>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cars.map((c, i) => (
-            <Reveal key={c.model} delay={i * 100}>
+          {items.map((c, i) => (
+            <Reveal key={c.id} delay={i * 100}>
               <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
                 <div className="relative aspect-[4/3] bg-black overflow-hidden">
-                  <img src={c.img} alt={c.model} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <span className={`absolute top-3 left-3 ${c.badgeColor} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full`}>{c.badge}</span>
+                  {c.img ? (
+                    <img src={c.img} alt={c.modelo} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
+                  )}
+                  <span className={`absolute top-3 left-3 ${c.destaque ? "bg-gold text-black" : "bg-white text-black"} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full`}>{c.badgeText}</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="font-display text-2xl mb-4">{c.model}</h3>
+                  <h3 className="font-display text-2xl mb-4">{c.modelo}</h3>
                   <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground mb-5">
                     <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-gold" /> {c.ano}</span>
-                    <span className="flex items-center gap-1.5"><Gauge className="w-3.5 h-3.5 text-gold" /> {c.km}</span>
+                    <span className="flex items-center gap-1.5"><Gauge className="w-3.5 h-3.5 text-gold" /> {c.km.toLocaleString("pt-BR")} km</span>
                     <span className="flex items-center gap-1.5"><Cog className="w-3.5 h-3.5 text-gold" /> {c.cambio}</span>
                     <span className="flex items-center gap-1.5"><Palette className="w-3.5 h-3.5 text-gold" /> {c.cor}</span>
                   </div>
-                  <div className="font-mono-d text-3xl text-gold font-bold mb-5 mt-auto">{c.preco}</div>
+                  <div className="font-mono-d text-3xl text-gold font-bold mb-5 mt-auto">{brl(c.preco)}</div>
                   <div className="flex gap-2">
-                    <a href={WA_LOJA} target="_blank" rel="noopener noreferrer" className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center">Tenho Interesse</a>
+                    <a href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${c.modelo}!`)}`} target="_blank" rel="noopener noreferrer" className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center">Tenho Interesse</a>
                     <Link to="/showroom" className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center">Ver Detalhes</Link>
                   </div>
                 </div>
@@ -196,7 +232,7 @@ function Estoque() {
         </div>
 
         <Reveal className="mt-14 text-center">
-          <p className="text-muted-foreground mb-5">Temos mais de 40 veículos esperando por você.</p>
+          <p className="text-muted-foreground mb-5">Confira todo o nosso estoque atualizado.</p>
           <Link to="/showroom" className="inline-flex items-center gap-2 btn-primary rounded-full px-8 py-4 text-base">
             Ver Showroom Completo <ArrowRight className="w-4 h-4" />
           </Link>
@@ -205,6 +241,7 @@ function Estoque() {
     </section>
   );
 }
+
 
 const timeline = [
   { ano: "2005", marco: "O Começo nas Mãos", titulo: "Da Mecânica à Excelência", texto: "Tudo começou com uma chave de fenda e muita determinação. Diogo Microni, movido pela paixão pela mecânica automotiva, abriu sua própria oficina e aprendeu na prática o que os livros não ensinam: que confiança se constrói parafuso por parafuso, cliente por cliente. Por anos, foi ele mesmo quem esteve sob cada carro, garantindo cada serviço com as próprias mãos." },
