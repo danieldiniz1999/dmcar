@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Search, CreditCard, FileText, Handshake, MapPin, Phone, Mail, Wrench, Shield, Settings, Star, Calendar, Gauge, Cog, Palette, User, ArrowRight } from "lucide-react";
 import { Header } from "@/components/dmcar/Header";
 import { Footer } from "@/components/dmcar/Footer";
@@ -6,10 +7,17 @@ import { WhatsAppFloat } from "@/components/dmcar/WhatsAppFloat";
 import { CookieBanner } from "@/components/dmcar/CookieBanner";
 import { Reveal } from "@/components/dmcar/Reveal";
 import { StatNumber } from "@/components/dmcar/StatNumber";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import heroCar from "@/assets/hero-car.jpg";
 import carSedan from "@/assets/car-sedan.jpg";
 import carSuv from "@/assets/car-suv.jpg";
 import carHatch from "@/assets/car-hatch.jpg";
+
+type CarRow = Database["public"]["Tables"]["cars"]["Row"];
+
+function brl(n: number) { return Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }); }
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
