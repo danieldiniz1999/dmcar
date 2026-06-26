@@ -15,7 +15,6 @@ import { Route as LinksRouteImport } from './routes/links'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiPublicBootstrapAdminsRouteImport } from './routes/api/public/bootstrap-admins'
 
 const ShowroomRoute = ShowroomRouteImport.update({
   id: '/showroom',
@@ -47,12 +46,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicBootstrapAdminsRoute =
-  ApiPublicBootstrapAdminsRouteImport.update({
-    id: '/api/public/bootstrap-admins',
-    path: '/api/public/bootstrap-admins',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,7 +54,6 @@ export interface FileRoutesByFullPath {
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
-  '/api/public/bootstrap-admins': typeof ApiPublicBootstrapAdminsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,7 +62,6 @@ export interface FileRoutesByTo {
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
-  '/api/public/bootstrap-admins': typeof ApiPublicBootstrapAdminsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,27 +71,12 @@ export interface FileRoutesById {
   '/links': typeof LinksRoute
   '/privacidade': typeof PrivacidadeRoute
   '/showroom': typeof ShowroomRoute
-  '/api/public/bootstrap-admins': typeof ApiPublicBootstrapAdminsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/admin'
-    | '/auth'
-    | '/links'
-    | '/privacidade'
-    | '/showroom'
-    | '/api/public/bootstrap-admins'
+  fullPaths: '/' | '/admin' | '/auth' | '/links' | '/privacidade' | '/showroom'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/admin'
-    | '/auth'
-    | '/links'
-    | '/privacidade'
-    | '/showroom'
-    | '/api/public/bootstrap-admins'
+  to: '/' | '/admin' | '/auth' | '/links' | '/privacidade' | '/showroom'
   id:
     | '__root__'
     | '/'
@@ -109,7 +85,6 @@ export interface FileRouteTypes {
     | '/links'
     | '/privacidade'
     | '/showroom'
-    | '/api/public/bootstrap-admins'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,7 +94,6 @@ export interface RootRouteChildren {
   LinksRoute: typeof LinksRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   ShowroomRoute: typeof ShowroomRoute
-  ApiPublicBootstrapAdminsRoute: typeof ApiPublicBootstrapAdminsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -166,13 +140,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/bootstrap-admins': {
-      id: '/api/public/bootstrap-admins'
-      path: '/api/public/bootstrap-admins'
-      fullPath: '/api/public/bootstrap-admins'
-      preLoaderRoute: typeof ApiPublicBootstrapAdminsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -183,7 +150,6 @@ const rootRouteChildren: RootRouteChildren = {
   LinksRoute: LinksRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   ShowroomRoute: ShowroomRoute,
-  ApiPublicBootstrapAdminsRoute: ApiPublicBootstrapAdminsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
