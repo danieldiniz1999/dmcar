@@ -27,7 +27,7 @@ export function Header() {
 
   return (
     <header className="relative w-full bg-background border-b border-border z-30">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center h-32 gap-3">
         <button
           onClick={() => setOpen(true)}
           className="text-white p-2 hover:text-gold transition-colors"
@@ -37,10 +37,8 @@ export function Header() {
         </button>
 
         <Link to="/" className="flex items-center min-w-0" aria-label="DMCAR">
-          <Logo size={110} className="logo-pulse" />
+          <Logo size={130} className="logo-pulse" />
         </Link>
-
-        <div className="w-11" aria-hidden="true" />
       </div>
 
       {/* Overlay */}
