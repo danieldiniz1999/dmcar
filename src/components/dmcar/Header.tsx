@@ -27,17 +27,17 @@ export function Header() {
 
   return (
     <header className="relative w-full bg-background border-b border-border z-30">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center h-32 gap-3">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center h-20 sm:h-24 md:h-32 gap-2 sm:gap-3">
         <button
           onClick={() => setOpen(true)}
-          className="text-white p-2 hover:text-gold transition-colors"
+          className="text-white p-2 hover:text-gold transition-colors shrink-0"
           aria-label="Abrir menu"
         >
-          <Menu className="w-7 h-7" />
+          <Menu className="w-6 h-6 sm:w-7 sm:h-7" />
         </button>
 
-        <Link to="/" className="flex items-center min-w-0" aria-label="DMCAR">
-          <Logo size={130} className="logo-pulse" />
+        <Link to="/" className="flex items-center min-w-0 shrink-0" aria-label="DMCAR">
+          <Logo responsive className="logo-pulse" />
         </Link>
       </div>
 
