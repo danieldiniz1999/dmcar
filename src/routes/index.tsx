@@ -9,10 +9,10 @@ import { Reveal } from "@/components/dmcar/Reveal";
 import { StatNumber } from "@/components/dmcar/StatNumber";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import heroCar from "@/assets/hero-car.jpg";
-import carSedan from "@/assets/car-sedan.jpg";
-import carSuv from "@/assets/car-suv.jpg";
-import carHatch from "@/assets/car-hatch.jpg";
+import heroCar from "@/assets/hero-car.webp";
+import carSedan from "@/assets/car-sedan.webp";
+import carSuv from "@/assets/car-suv.webp";
+import carHatch from "@/assets/car-hatch.webp";
 import italoFoto from "@/assets/italo.jpg.asset.json";
 import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
 
@@ -34,7 +34,10 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://dmcar.site/" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://dmcar.site/" }],
+    links: [
+      { rel: "canonical", href: "https://dmcar.site/" },
+      { rel: "preload", as: "image", href: heroCar, fetchpriority: "high" },
+    ],
   }),
   component: HomePage,
 });
@@ -67,7 +70,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
-        <img src={heroCar} alt="" className="w-full h-full object-cover opacity-50" width={1920} height={1080} />
+        <img src={heroCar} alt="" className="w-full h-full object-cover opacity-50" width={1920} height={1080} fetchPriority="high" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
       </div>
       <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-24 md:pt-28 md:pb-32">
@@ -181,11 +184,23 @@ function Estoque() {
       const list = data ?? [];
       setCars(list);
       const map: Record<string, string> = {};
+      const TTL = 12 * 60 * 60 * 1000; // 12h
       await Promise.all(list.map(async (c) => {
         const path = c.fotos?.[0];
         if (!path) return;
+        const cacheKey = `dmcar:img:${path}`;
+        try {
+          const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
+          if (raw) {
+            const parsed = JSON.parse(raw) as { url: string; exp: number };
+            if (parsed.exp > Date.now()) { map[c.id] = parsed.url; return; }
+          }
+        } catch {}
         const { data: signed } = await supabase.storage.from("car-images").createSignedUrl(path, 60 * 60 * 24);
-        if (signed?.signedUrl) map[c.id] = signed.signedUrl;
+        if (signed?.signedUrl) {
+          map[c.id] = signed.signedUrl;
+          try { localStorage.setItem(cacheKey, JSON.stringify({ url: signed.signedUrl, exp: Date.now() + TTL })); } catch {}
+        }
       }));
       setImages(map);
       setLoaded(true);
@@ -210,7 +225,7 @@ function Estoque() {
               <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
                 <div className="relative aspect-[4/3] bg-black overflow-hidden">
                   {c.img ? (
-                    <img src={c.img} alt={c.modelo} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={c.img} alt={c.modelo} loading="lazy" decoding="async" width={800} height={600} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
                   )}

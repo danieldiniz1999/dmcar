@@ -101,7 +101,7 @@ function ShowroomPage() {
                     <article className="card-vehicle h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
                       <div className="relative aspect-[4/3] bg-black overflow-hidden">
                         {images[v.id] ? (
-                          <img src={images[v.id]} alt={v.modelo} loading="lazy" className="w-full h-full object-cover" />
+                          <img src={images[v.id]} alt={v.modelo} loading="lazy" decoding="async" width={800} height={600} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
                         )}
