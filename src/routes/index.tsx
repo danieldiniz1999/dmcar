@@ -34,7 +34,10 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://dmcar.site/" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://dmcar.site/" }],
+    links: [
+      { rel: "canonical", href: "https://dmcar.site/" },
+      { rel: "preload", as: "image", href: heroCar, fetchpriority: "high" },
+    ],
   }),
   component: HomePage,
 });
