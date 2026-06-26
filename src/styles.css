@@ -123,3 +123,8 @@
   .input:focus { outline: none; border-color: #F5C518; }
 }
 
+#lovable-badge {
+  display: none !important;
+}
+
+
