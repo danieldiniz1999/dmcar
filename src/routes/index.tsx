@@ -77,7 +77,7 @@ function Hero() {
               ✦ Veículos Multimarcas · Fortaleza, CE
             </span>
           </div>
-          <h1 className="hero-rise mt-6 font-display text-6xl sm:text-7xl md:text-8xl leading-[0.95] text-white" style={{ animationDelay: "150ms" }}>
+          <h1 className="hero-rise mt-6 font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] text-white" style={{ animationDelay: "150ms" }}>
             SEU PRÓXIMO<br/>CARRO É <span className="text-gold">AQUI.</span>
           </h1>
           <p className="hero-rise mt-6 max-w-xl text-lg text-muted-foreground" style={{ animationDelay: "300ms" }}>
