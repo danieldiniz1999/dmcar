@@ -27,9 +27,9 @@ export function Header() {
 
   return (
     <header className="relative w-full bg-background border-b border-border z-30">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-28">
         <Link to="/" className="flex items-center min-w-0" aria-label="DMCAR">
-          <Logo size={72} className="logo-pulse" />
+          <Logo size={110} className="logo-pulse" />
         </Link>
 
         <button
