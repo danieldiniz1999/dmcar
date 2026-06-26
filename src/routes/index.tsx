@@ -13,6 +13,8 @@ import heroCar from "@/assets/hero-car.jpg";
 import carSedan from "@/assets/car-sedan.jpg";
 import carSuv from "@/assets/car-suv.jpg";
 import carHatch from "@/assets/car-hatch.jpg";
+import italoFoto from "@/assets/italo.jpg.asset.json";
+
 
 type CarRow = Database["public"]["Tables"]["cars"]["Row"];
 
