@@ -82,7 +82,7 @@ function AuthPage() {
           </form>
 
           <p className="mt-6 text-xs text-muted-foreground text-center">
-            Apenas as 2 primeiras contas criadas terão acesso de administrador.
+            Acesso restrito à equipe DMCAR.
           </p>
         </div>
       </div>
