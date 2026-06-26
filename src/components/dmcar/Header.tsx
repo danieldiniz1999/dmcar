@@ -20,11 +20,8 @@ export function Header() {
   return (
     <header className="relative w-full bg-background border-b border-border z-30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
-        <Link to="/" className="flex items-center gap-3 min-w-0">
-          <Logo size={44} className="logo-pulse" />
-          <span className="font-display text-2xl tracking-wide text-white">
-            DM<span className="text-gold">CAR</span>
-          </span>
+        <Link to="/" className="flex items-center min-w-0" aria-label="DMCAR">
+          <Logo size={72} className="logo-pulse" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-7">
