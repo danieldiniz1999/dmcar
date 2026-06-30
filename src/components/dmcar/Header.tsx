@@ -69,16 +69,13 @@ export function Header() {
                       <a
                         href={item.href}
                         onClick={() => setOpen(false)}
-                        className={`group relative block overflow-hidden text-sm font-sans font-semibold uppercase tracking-[0.2em] py-4 px-4 border-b border-border/40 transition-colors duration-300 ${
-                          active ? "text-background" : "text-white/90 hover:text-background"
+                        className={`group relative block text-sm font-mono-d font-semibold uppercase tracking-[0.18em] py-3 px-5 rounded-full transition-colors duration-300 ${
+                          active
+                            ? "bg-gold text-background"
+                            : "text-white/90 hover:bg-gold hover:text-background"
                         }`}
                       >
-                        <span
-                          className={`absolute inset-0 bg-gold origin-left transition-transform duration-500 ease-out ${
-                            active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                          }`}
-                        />
-                        <span className="relative z-10">{item.label}</span>
+                        {item.label}
                       </a>
                     </li>
                   );
