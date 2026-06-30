@@ -69,10 +69,10 @@ export function Header() {
                       <a
                         href={item.href}
                         onClick={() => setOpen(false)}
-                        className={`group relative block text-sm font-mono-d font-semibold uppercase tracking-[0.18em] py-3 px-5 rounded-full transition-colors duration-300 ${
+                        className={`group relative block text-base font-mono-d font-semibold tracking-[0.08em] py-3 px-5 rounded-full transition-colors duration-300 ${
                           active
                             ? "bg-gold text-background"
-                            : "text-white/90 hover:bg-gold hover:text-background"
+                            : "text-white/90 hover:bg-gold/20 hover:text-gold"
                         }`}
                       >
                         {item.label}
