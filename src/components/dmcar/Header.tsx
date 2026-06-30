@@ -1,9 +1,17 @@
-import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
 import { Logo } from "./Logo";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
-const WHATSAPP_HEADER = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!";
+const WHATSAPP_HEADER =
+  "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!";
 
 const navItems = [
   { label: "Início", href: "/" },
@@ -16,87 +24,82 @@ const navItems = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const hash = useRouterState({ select: (s) => s.location.hash });
 
-  useEffect(() => {
-    if (open) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => { document.body.style.overflow = prev; };
+  const isActive = (href: string) => {
+    if (href.includes("#")) {
+      const [path, anchor] = href.split("#");
+      const targetPath = path || "/";
+      return pathname === targetPath && hash === anchor;
     }
-  }, [open]);
+    return pathname === href;
+  };
 
   return (
     <header className="relative w-full bg-background border-b border-border z-30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center h-20 sm:h-24 md:h-32 gap-2 sm:gap-3">
-        <button
-          onClick={() => setOpen(true)}
-          className="text-white p-2 hover:text-gold transition-colors shrink-0 cursor-pointer"
-          aria-label="Abrir menu"
-        >
-          <Menu className="w-6 h-6 sm:w-7 sm:h-7" />
-        </button>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <button
+              className="text-white p-2 hover:text-gold transition-colors shrink-0 cursor-pointer"
+              aria-label="Abrir menu"
+            >
+              <Menu className="w-6 h-6 sm:w-7 sm:h-7" />
+            </button>
+          </SheetTrigger>
+
+          <SheetContent
+            side="left"
+            className="w-80 max-w-[85vw] bg-[#0A0A0A] border-r border-border p-0 flex flex-col"
+          >
+            <SheetHeader className="p-6 border-b border-border">
+              <SheetTitle className="flex items-center">
+                <Logo size={48} />
+                <span className="sr-only">Menu DMCAR</span>
+              </SheetTitle>
+            </SheetHeader>
+
+            <nav className="flex-1 overflow-y-auto px-6 py-8">
+              <ul className="flex flex-col gap-1">
+                {navItems.map((item) => {
+                  const active = isActive(item.href);
+                  return (
+                    <li key={item.label}>
+                      <a
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className={`block text-lg font-display tracking-wide py-3 border-b border-border/40 transition-colors ${
+                          active
+                            ? "text-gold border-gold/60"
+                            : "text-white/90 hover:text-gold"
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <div className="p-6 border-t border-border">
+              <a
+                href={WHATSAPP_HEADER}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary rounded-full px-5 py-3 text-sm text-center block"
+              >
+                Falar no WhatsApp
+              </a>
+            </div>
+          </SheetContent>
+        </Sheet>
 
         <Link to="/" className="flex items-center min-w-0 shrink-0" aria-label="DMCAR">
           <Logo responsive className="logo-pulse" />
         </Link>
       </div>
-
-      {/* Overlay */}
-      <div
-        onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/70 backdrop-blur-sm transition-opacity duration-500 ease-out ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-        aria-hidden="true"
-      />
-
-      {/* Drawer */}
-      <aside
-        className={`fixed left-0 top-0 z-50 h-full w-80 max-w-[85vw] bg-[#0A0A0A] border-r border-border shadow-2xl flex flex-col transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menu de navegação"
-      >
-        <div className="flex items-center justify-between p-6 border-b border-border">
-          <Logo size={48} />
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Fechar menu"
-            className="text-white hover:text-gold transition-colors p-1"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        <nav className="flex-1 overflow-y-auto px-6 py-8">
-          <ul className="flex flex-col gap-1">
-            {navItems.map((item, i) => (
-              <li
-                key={item.label}
-                className={`transform transition-all duration-500 ease-out ${open ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"}`}
-                style={{ transitionDelay: open ? `${120 + i * 60}ms` : "0ms" }}
-              >
-                <a
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="block text-lg font-display tracking-wide text-white/90 hover:text-gold py-3 border-b border-border/40 transition-colors"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="p-6 border-t border-border">
-          <a
-            href={WHATSAPP_HEADER}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary rounded-full px-5 py-3 text-sm text-center block"
-          >
-            Falar no WhatsApp
-          </a>
-        </div>
-      </aside>
     </header>
   );
 }
