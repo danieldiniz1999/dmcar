@@ -68,14 +68,15 @@ export function Header() {
                     <li key={item.label}>
                       <a
                         href={item.href}
+                        data-active={active ? "true" : "false"}
                         onClick={() => setOpen(false)}
-                        className={`group relative block text-base font-mono-d font-semibold tracking-[0.08em] py-3 px-5 rounded-full transition-all duration-300 ease-out hover:bg-gold hover:!text-background hover:translate-x-1 hover:shadow-[0_0_20px_rgba(245,197,24,0.45)] ${
+                        className={`dmcar-menu-link group relative block text-base font-mono-d font-semibold tracking-[0.08em] py-3 px-5 rounded-full transition-all duration-300 ease-out ${
                           active
                             ? "bg-gold text-background"
                             : "text-white/90"
                         }`}
                       >
-                        {item.label}
+                        <span className="relative z-10">{item.label}</span>
                       </a>
                     </li>
                   );
