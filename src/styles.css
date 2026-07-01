@@ -121,6 +121,21 @@
     transition: border-color .2s ease;
   }
   .input:focus { outline: none; border-color: #F5C518; }
+
+  .dmcar-menu-link:hover,
+  .dmcar-menu-link:focus-visible,
+  .dmcar-menu-link[data-active="true"] {
+    background-color: #F5C518 !important;
+    color: #0A0A0A !important;
+    transform: translateX(0.25rem);
+    box-shadow: 0 0 20px rgba(245, 197, 24, 0.45);
+  }
+
+  .dmcar-menu-link:hover span,
+  .dmcar-menu-link:focus-visible span,
+  .dmcar-menu-link[data-active="true"] span {
+    color: #0A0A0A !important;
+  }
 }
 
 #lovable-badge {
