@@ -27,13 +27,15 @@ export function Header() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const hash = useRouterState({ select: (s) => s.location.hash });
 
+  const normalizedHash = (hash || "").replace(/^#/, "");
+
   const isActive = (href: string) => {
     if (href.includes("#")) {
       const [path, anchor] = href.split("#");
       const targetPath = path || "/";
-      return pathname === targetPath && hash === anchor;
+      return pathname === targetPath && normalizedHash === anchor;
     }
-    return pathname === href;
+    return pathname === href && !normalizedHash;
   };
 
   return (
