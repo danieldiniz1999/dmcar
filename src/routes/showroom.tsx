@@ -28,7 +28,7 @@ export const Route = createFileRoute("/showroom")({
   component: ShowroomPage,
 });
 
-const WA_LOJA = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20um%20ve%C3%ADculo%20do%20showroom%20DMCAR!";
+const WA_LOJA = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20tenho%20interesse%20em%20um%20ve%C3%ADculo%20do%20showroom%21";
 
 function brl(n: number) { return Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }); }
 
