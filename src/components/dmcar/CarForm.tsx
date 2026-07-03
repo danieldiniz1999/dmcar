@@ -11,18 +11,19 @@ const COMBUSTIVEIS = ["Flex", "Gasolina", "Diesel", "Híbrido", "Elétrico"];
 
 export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({
-    marca: car?.marca ?? "Toyota",
+    marca: car?.marca ?? "",
     modelo: car?.modelo ?? "",
-    ano: car?.ano ?? new Date().getFullYear(),
-    km: car?.km ?? 0,
-    cambio: car?.cambio ?? "Automático",
-    combustivel: car?.combustivel ?? "Flex",
+    ano: car?.ano != null ? String(car.ano) : "",
+    km: car?.km != null ? String(car.km) : "",
+    cambio: car?.cambio ?? "",
+    combustivel: car?.combustivel ?? "",
     cor: car?.cor ?? "",
-    preco: car?.preco ?? 0,
+    preco: car?.preco != null ? String(car.preco) : "",
     descricao: car?.descricao ?? "",
     destaque: car?.destaque ?? false,
     vendido: car?.vendido ?? false,
   });
+
   const [existingFotos, setExistingFotos] = useState<string[]>(car?.fotos ?? []);
   const [previews, setPreviews] = useState<Record<string, string>>({});
   const [newFiles, setNewFiles] = useState<File[]>([]);
@@ -62,7 +63,7 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
       }
 
       const fotos = [...existingFotos, ...uploadedPaths];
-      const payload = { ...form, fotos, preco: Number(form.preco), ano: Number(form.ano), km: Number(form.km) };
+      const payload = { ...form, fotos, preco: form.preco === "" ? 0 : Number(form.preco), ano: form.ano === "" ? 0 : Number(form.ano), km: form.km === "" ? 0 : Number(form.km) };
 
       if (car) {
         const { error } = await supabase.from("cars").update(payload).eq("id", car.id);
@@ -101,25 +102,20 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
       <form onSubmit={submit} className="mx-auto max-w-4xl px-6 py-10 space-y-6">
         <div className="grid sm:grid-cols-2 gap-4">
           <Field label="Marca">
-            <select value={form.marca} onChange={(e) => setForm({ ...form, marca: e.target.value })} className="input">
-              {MARCAS.map((m) => <option key={m} value={m}>{m}</option>)}
-            </select>
+            <input value={form.marca} onChange={(e) => setForm({ ...form, marca: e.target.value })} className="input" />
           </Field>
-          <Field label="Modelo"><input required value={form.modelo} onChange={(e) => setForm({ ...form, modelo: e.target.value })} className="input" placeholder="Ex: Corolla XEi 2.0" /></Field>
-          <Field label="Ano"><input type="number" required min={1980} max={new Date().getFullYear() + 1} value={form.ano} onChange={(e) => setForm({ ...form, ano: Number(e.target.value) })} className="input" /></Field>
-          <Field label="Km"><input type="number" required min={0} value={form.km} onChange={(e) => setForm({ ...form, km: Number(e.target.value) })} className="input" /></Field>
+          <Field label="Modelo"><input value={form.modelo} onChange={(e) => setForm({ ...form, modelo: e.target.value })} className="input" /></Field>
+          <Field label="Ano"><input value={form.ano} onChange={(e) => setForm({ ...form, ano: e.target.value })} className="input" /></Field>
+          <Field label="Km"><input value={form.km} onChange={(e) => setForm({ ...form, km: e.target.value })} className="input" /></Field>
           <Field label="Câmbio">
-            <select value={form.cambio} onChange={(e) => setForm({ ...form, cambio: e.target.value })} className="input">
-              {CAMBIOS.map((m) => <option key={m} value={m}>{m}</option>)}
-            </select>
+            <input value={form.cambio} onChange={(e) => setForm({ ...form, cambio: e.target.value })} className="input" />
           </Field>
           <Field label="Combustível">
-            <select value={form.combustivel} onChange={(e) => setForm({ ...form, combustivel: e.target.value })} className="input">
-              {COMBUSTIVEIS.map((m) => <option key={m} value={m}>{m}</option>)}
-            </select>
+            <input value={form.combustivel} onChange={(e) => setForm({ ...form, combustivel: e.target.value })} className="input" />
           </Field>
-          <Field label="Cor"><input required value={form.cor} onChange={(e) => setForm({ ...form, cor: e.target.value })} className="input" /></Field>
-          <Field label="Preço (R$)"><input type="number" required min={0} step="100" value={form.preco} onChange={(e) => setForm({ ...form, preco: Number(e.target.value) })} className="input" /></Field>
+          <Field label="Cor"><input value={form.cor} onChange={(e) => setForm({ ...form, cor: e.target.value })} className="input" /></Field>
+          <Field label="Preço (R$)"><input value={form.preco} onChange={(e) => setForm({ ...form, preco: e.target.value })} className="input" /></Field>
+
         </div>
 
         <Field label="Descrição">
