@@ -1,4 +1,4 @@
-export const WHATSAPP_URL = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!";
+export const WHATSAPP_URL = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%21";
 
 export function WhatsAppFloat() {
   return (
