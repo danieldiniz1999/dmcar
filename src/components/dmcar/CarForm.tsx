@@ -171,8 +171,14 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
           </Field>
 
           <Field label="Combustível">
-            <input value={form.combustivel} onChange={(e) => setForm({ ...form, combustivel: e.target.value })} className="input" />
+            <select value={form.combustivel} onChange={(e) => setForm({ ...form, combustivel: e.target.value })} className="input">
+              <option value="">Selecione</option>
+              <option value="Gasolina">Gasolina</option>
+              <option value="Flex">Flex</option>
+              <option value="Diesel">Diesel</option>
+            </select>
           </Field>
+
           <Field label="Cor"><input value={form.cor} onChange={(e) => setForm({ ...form, cor: e.target.value })} className="input" /></Field>
           <Field label="Preço (R$)"><input value={form.preco} onChange={(e) => setForm({ ...form, preco: e.target.value })} className="input" /></Field>
 
