@@ -11,18 +11,19 @@ const COMBUSTIVEIS = ["Flex", "Gasolina", "Diesel", "Híbrido", "Elétrico"];
 
 export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({
-    marca: car?.marca ?? "Toyota",
+    marca: car?.marca ?? "",
     modelo: car?.modelo ?? "",
-    ano: car?.ano ?? new Date().getFullYear(),
-    km: car?.km ?? 0,
-    cambio: car?.cambio ?? "Automático",
-    combustivel: car?.combustivel ?? "Flex",
+    ano: car?.ano != null ? String(car.ano) : "",
+    km: car?.km != null ? String(car.km) : "",
+    cambio: car?.cambio ?? "",
+    combustivel: car?.combustivel ?? "",
     cor: car?.cor ?? "",
-    preco: car?.preco ?? 0,
+    preco: car?.preco != null ? String(car.preco) : "",
     descricao: car?.descricao ?? "",
     destaque: car?.destaque ?? false,
     vendido: car?.vendido ?? false,
   });
+
   const [existingFotos, setExistingFotos] = useState<string[]>(car?.fotos ?? []);
   const [previews, setPreviews] = useState<Record<string, string>>({});
   const [newFiles, setNewFiles] = useState<File[]>([]);
