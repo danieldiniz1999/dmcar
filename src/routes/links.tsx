@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Instagram, Globe, MessageCircle } from "lucide-react";
+import { ArrowRight, Instagram, Globe } from "lucide-react";
 import { Logo } from "@/components/dmcar/Logo";
 
 export const Route = createFileRoute("/links")({
@@ -13,16 +13,25 @@ export const Route = createFileRoute("/links")({
   component: LinksPage,
 });
 
-type LinkItem = { label: string; sub?: string; href: string; primary?: boolean; icon: typeof MessageCircle; external?: boolean };
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M16.001 3C8.82 3 3 8.82 3 16c0 2.29.6 4.52 1.74 6.49L3 29l6.68-1.75A12.94 12.94 0 0 0 16 29c7.18 0 13-5.82 13-13S23.18 3 16.001 3zm0 23.4c-1.98 0-3.92-.53-5.62-1.53l-.4-.24-3.97 1.04 1.06-3.87-.26-.4a10.4 10.4 0 1 1 9.19 4.99zm5.72-7.79c-.31-.16-1.85-.91-2.14-1.02-.29-.11-.5-.16-.72.16-.21.31-.83 1.02-1.02 1.23-.19.21-.37.24-.69.08-.31-.16-1.32-.49-2.52-1.55-.93-.83-1.55-1.85-1.74-2.16-.19-.31-.02-.48.14-.63.14-.14.31-.37.47-.55.16-.19.21-.31.31-.52.11-.21.05-.39-.03-.55-.08-.16-.72-1.74-.99-2.38-.26-.62-.53-.53-.72-.55l-.61-.01c-.21 0-.55.08-.83.39-.29.31-1.09 1.07-1.09 2.61 0 1.54 1.12 3.03 1.28 3.24.16.21 2.21 3.37 5.35 4.72.75.32 1.33.51 1.78.65.75.24 1.43.21 1.97.13.6-.09 1.85-.76 2.11-1.49.26-.72.26-1.34.18-1.49-.08-.14-.29-.24-.6-.4z"/>
+    </svg>
+  );
+}
+
+type LinkItem = { label: string; sub?: string; href: string; primary?: boolean; icon: (p: { className?: string }) => JSX.Element; external?: boolean };
 
 const items: LinkItem[] = [
-  { label: "Falar com Ítalo", sub: "Consultor", href: "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis!", primary: true, icon: MessageCircle, external: true },
-  { label: "Falar com Wallyson", sub: "Consultor", href: "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis!", primary: true, icon: MessageCircle, external: true },
-  { label: "WhatsApp — Loja 1", sub: "Av. Mister Hull, 4971", href: "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%201!", icon: MessageCircle, external: true },
-  { label: "WhatsApp — Loja 2", sub: "Av. Mister Hull, 4940", href: "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202!", icon: MessageCircle, external: true },
-  { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: Globe },
-  { label: "Instagram da DMCAR", sub: "@dmcarveiculos", href: "https://www.instagram.com/dmcarveiculos", icon: Instagram, external: true },
+  { label: "Falar com Ítalo", sub: "Consultor", href: "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis!", primary: true, icon: WhatsAppIcon, external: true },
+  { label: "Falar com Wallyson", sub: "Consultor", href: "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis!", primary: true, icon: WhatsAppIcon, external: true },
+  { label: "WhatsApp — Loja 1", sub: "Av. Mister Hull, 4971", href: "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%201!", icon: WhatsAppIcon, external: true },
+  { label: "WhatsApp — Loja 2", sub: "Av. Mister Hull, 4940", href: "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202!", icon: WhatsAppIcon, external: true },
+  { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
+  { label: "Instagram da DMCAR", sub: "@dmcarveiculos", href: "https://www.instagram.com/dmcarveiculos", icon: (p) => <Instagram {...p} />, external: true },
 ];
+
 
 function LinksPage() {
   return (
