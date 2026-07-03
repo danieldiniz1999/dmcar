@@ -10,12 +10,10 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -25,22 +23,12 @@ function AuthPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true); setError(null); setInfo(null);
+    setLoading(true); setError(null);
     const email = `${username.trim().toLowerCase()}@dmcar.local`;
     try {
-      if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        navigate({ to: "/admin" });
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email, password,
-          options: { emailRedirectTo: `${window.location.origin}/admin` },
-        });
-        if (error) throw error;
-        setInfo("Conta criada! Você já pode entrar.");
-        setMode("signin");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      navigate({ to: "/admin" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao autenticar");
     } finally {
@@ -58,11 +46,6 @@ function AuthPage() {
         </div>
 
         <div className="rounded-2xl bg-surface border border-border p-8">
-          <div className="flex gap-2 mb-6">
-            <button onClick={() => setMode("signin")} className={`flex-1 py-2 text-sm rounded-lg transition-colors ${mode === "signin" ? "bg-gold text-black font-semibold" : "bg-transparent text-white/70 border border-border"}`}>Entrar</button>
-            <button onClick={() => setMode("signup")} className={`flex-1 py-2 text-sm rounded-lg transition-colors ${mode === "signup" ? "bg-gold text-black font-semibold" : "bg-transparent text-white/70 border border-border"}`}>Criar conta</button>
-          </div>
-
           <form onSubmit={submit} className="space-y-4">
             <div>
               <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">Usuário</label>
@@ -74,12 +57,12 @@ function AuthPage() {
             </div>
 
             {error && <p className="text-sm text-red-400">{error}</p>}
-            {info && <p className="text-sm text-green-400">{info}</p>}
 
             <button type="submit" disabled={loading} className="w-full btn-primary rounded-full px-5 py-3 text-sm disabled:opacity-50">
-              {loading ? "Aguarde..." : mode === "signin" ? "Entrar" : "Criar conta"}
+              {loading ? "Aguarde..." : "Entrar"}
             </button>
           </form>
+
 
           <p className="mt-6 text-xs text-muted-foreground text-center">
             Acesso restrito à equipe DMCAR.
