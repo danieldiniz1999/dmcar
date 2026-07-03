@@ -189,7 +189,12 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
         </div>
 
         <div>
-          <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Fotos</label>
+          <div className="flex items-baseline justify-between mb-2">
+            <label className="block text-xs uppercase tracking-widest text-muted-foreground">Fotos</label>
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              {existingFotos.length + newFiles.length}/{MAX_FOTOS} · máx. {MAX_FILE_MB}MB por foto
+            </span>
+          </div>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {existingFotos.map((p) => (
               <div key={p} className="relative aspect-square rounded-lg overflow-hidden border border-border bg-black">
@@ -207,13 +212,16 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
                 </button>
               </div>
             ))}
-            <label className="aspect-square rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-gold text-muted-foreground hover:text-gold transition-colors">
-              <Upload className="w-5 h-5" />
-              <span className="text-[10px] uppercase tracking-widest">Adicionar</span>
-              <input type="file" accept="image/*" multiple onChange={handleFiles} className="hidden" />
-            </label>
+            {existingFotos.length + newFiles.length < MAX_FOTOS && (
+              <label className="aspect-square rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-gold text-muted-foreground hover:text-gold transition-colors">
+                <Upload className="w-5 h-5" />
+                <span className="text-[10px] uppercase tracking-widest">Adicionar</span>
+                <input type="file" accept="image/*" multiple onChange={handleFiles} className="hidden" />
+              </label>
+            )}
           </div>
         </div>
+
 
         {error && <p className="text-sm text-red-400">{error}</p>}
 
