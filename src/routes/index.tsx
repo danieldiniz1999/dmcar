@@ -481,7 +481,7 @@ const unidades = [
     tel: "(85) 98719-8049",
     hora: "Seg–Sex 8h–18h · Sáb 8h–13h · Dom Fechado",
     maps: "https://www.google.com/maps/search/?api=1&query=Av.+Mister+Hull+4971+Antonio+Bezerra+Fortaleza",
-    wa: "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20a%20Loja%201%20da%20DMCAR!",
+    wa: "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%201%21",
     waLabel: "Falar pelo WhatsApp",
   },
   {
