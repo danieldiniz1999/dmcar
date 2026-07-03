@@ -63,7 +63,7 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
       }
 
       const fotos = [...existingFotos, ...uploadedPaths];
-      const payload = { ...form, fotos, preco: Number(form.preco), ano: Number(form.ano), km: Number(form.km) };
+      const payload = { ...form, fotos, preco: form.preco === "" ? 0 : Number(form.preco), ano: form.ano === "" ? 0 : Number(form.ano), km: form.km === "" ? 0 : Number(form.km) };
 
       if (car) {
         const { error } = await supabase.from("cars").update(payload).eq("id", car.id);
