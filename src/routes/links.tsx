@@ -1,4 +1,6 @@
+import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+
 import { ArrowRight, Instagram, Globe } from "lucide-react";
 import { Logo } from "@/components/dmcar/Logo";
 
