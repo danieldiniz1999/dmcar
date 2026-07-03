@@ -101,17 +101,21 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
     e.preventDefault();
     setSaving(true); setError(null);
     try {
+      if (existingFotos.length + newFiles.length > MAX_FOTOS) {
+        throw new Error(`Máximo de ${MAX_FOTOS} fotos por carro.`);
+      }
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Sessão expirada");
 
       const uploadedPaths: string[] = [];
-      for (const file of newFiles) {
-        const ext = file.name.split(".").pop() ?? "jpg";
-        const path = `${session.user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error: upErr } = await supabase.storage.from("car-images").upload(path, file, { contentType: file.type });
+      for (const original of newFiles) {
+        const file = await compressImage(original);
+        const path = `${session.user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
+        const { error: upErr } = await supabase.storage.from("car-images").upload(path, file, { contentType: file.type, cacheControl: "3600" });
         if (upErr) throw upErr;
         uploadedPaths.push(path);
       }
+
 
       const fotos = [...existingFotos, ...uploadedPaths];
       const payload = { ...form, fotos, preco: form.preco === "" ? 0 : Number(form.preco), ano: form.ano === "" ? 0 : Number(form.ano), km: form.km === "" ? 0 : Number(form.km) };
