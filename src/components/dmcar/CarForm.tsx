@@ -9,6 +9,36 @@ const MARCAS = ["Toyota", "Honda", "Volkswagen", "Chevrolet", "Hyundai", "Fiat",
 const CAMBIOS = ["Manual", "Automático", "Automatizado", "CVT"];
 const COMBUSTIVEIS = ["Flex", "Gasolina", "Diesel", "Híbrido", "Elétrico"];
 
+const MAX_FOTOS = 5;
+const MAX_FILE_MB = 10;
+const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
+const MAX_DIMENSION = 1600;
+const JPEG_QUALITY = 0.82;
+
+async function compressImage(file: File): Promise<File> {
+  if (!file.type.startsWith("image/")) return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
+    const w = Math.round(bitmap.width * scale);
+    const h = Math.round(bitmap.height * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return file;
+    ctx.drawImage(bitmap, 0, 0, w, h);
+    bitmap.close?.();
+    const blob: Blob | null = await new Promise((res) => canvas.toBlob(res, "image/jpeg", JPEG_QUALITY));
+    if (!blob) return file;
+    if (blob.size >= file.size) return file;
+    const base = file.name.replace(/\.[^.]+$/, "");
+    return new File([blob], `${base}.jpg`, { type: "image/jpeg" });
+  } catch {
+    return file;
+  }
+}
+
+
 export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({
     marca: car?.marca ?? "",
@@ -42,25 +72,50 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
   }, [existingFotos]);
 
   function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    setError(null);
     const files = Array.from(e.target.files ?? []);
-    setNewFiles((prev) => [...prev, ...files]);
+    const totalAtual = existingFotos.length + newFiles.length;
+    const espacoLivre = MAX_FOTOS - totalAtual;
+    if (espacoLivre <= 0) {
+      setError(`Limite de ${MAX_FOTOS} fotos por carro.`);
+      e.target.value = "";
+      return;
+    }
+    const aceitos: File[] = [];
+    const rejeitadosTamanho: string[] = [];
+    for (const f of files) {
+      if (aceitos.length >= espacoLivre) break;
+      if (f.size > MAX_FILE_BYTES) { rejeitadosTamanho.push(f.name); continue; }
+      aceitos.push(f);
+    }
+    const avisos: string[] = [];
+    if (files.length > espacoLivre) avisos.push(`Só cabem mais ${espacoLivre} foto(s) (máx. ${MAX_FOTOS}).`);
+    if (rejeitadosTamanho.length) avisos.push(`Arquivo(s) acima de ${MAX_FILE_MB}MB ignorado(s): ${rejeitadosTamanho.join(", ")}.`);
+    if (avisos.length) setError(avisos.join(" "));
+    if (aceitos.length) setNewFiles((prev) => [...prev, ...aceitos]);
+    e.target.value = "";
   }
+
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true); setError(null);
     try {
+      if (existingFotos.length + newFiles.length > MAX_FOTOS) {
+        throw new Error(`Máximo de ${MAX_FOTOS} fotos por carro.`);
+      }
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Sessão expirada");
 
       const uploadedPaths: string[] = [];
-      for (const file of newFiles) {
-        const ext = file.name.split(".").pop() ?? "jpg";
-        const path = `${session.user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error: upErr } = await supabase.storage.from("car-images").upload(path, file, { contentType: file.type });
+      for (const original of newFiles) {
+        const file = await compressImage(original);
+        const path = `${session.user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
+        const { error: upErr } = await supabase.storage.from("car-images").upload(path, file, { contentType: file.type, cacheControl: "3600" });
         if (upErr) throw upErr;
         uploadedPaths.push(path);
       }
+
 
       const fotos = [...existingFotos, ...uploadedPaths];
       const payload = { ...form, fotos, preco: form.preco === "" ? 0 : Number(form.preco), ano: form.ano === "" ? 0 : Number(form.ano), km: form.km === "" ? 0 : Number(form.km) };
@@ -134,7 +189,12 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
         </div>
 
         <div>
-          <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Fotos</label>
+          <div className="flex items-baseline justify-between mb-2">
+            <label className="block text-xs uppercase tracking-widest text-muted-foreground">Fotos</label>
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              {existingFotos.length + newFiles.length}/{MAX_FOTOS} · máx. {MAX_FILE_MB}MB por foto
+            </span>
+          </div>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {existingFotos.map((p) => (
               <div key={p} className="relative aspect-square rounded-lg overflow-hidden border border-border bg-black">
@@ -152,13 +212,16 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
                 </button>
               </div>
             ))}
-            <label className="aspect-square rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-gold text-muted-foreground hover:text-gold transition-colors">
-              <Upload className="w-5 h-5" />
-              <span className="text-[10px] uppercase tracking-widest">Adicionar</span>
-              <input type="file" accept="image/*" multiple onChange={handleFiles} className="hidden" />
-            </label>
+            {existingFotos.length + newFiles.length < MAX_FOTOS && (
+              <label className="aspect-square rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-gold text-muted-foreground hover:text-gold transition-colors">
+                <Upload className="w-5 h-5" />
+                <span className="text-[10px] uppercase tracking-widest">Adicionar</span>
+                <input type="file" accept="image/*" multiple onChange={handleFiles} className="hidden" />
+              </label>
+            )}
           </div>
         </div>
+
 
         {error && <p className="text-sm text-red-400">{error}</p>}
 
