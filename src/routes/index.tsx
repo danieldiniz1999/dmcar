@@ -44,9 +44,9 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const WA_LOJA = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!";
-const WA_ITALO = "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20ve%C3%ADculos%20dispon%C3%ADveis!";
-const WA_WALLYSON = "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20vim%20pelo%20site%20da%20DMCAR%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20ve%C3%ADculos%20dispon%C3%ADveis!";
+const WA_LOJA = "https://wa.me/5585987198049?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%21";
+const WA_ITALO = "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
+const WA_WALLYSON = "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
 
 function HomePage() {
   return (
