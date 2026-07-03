@@ -21,7 +21,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-type LinkItem = { label: string; sub?: string; href: string; primary?: boolean; icon: (p: { className?: string }) => JSX.Element; external?: boolean };
+type LinkItem = { label: string; sub?: string; href: string; primary?: boolean; icon: (p: { className?: string }) => React.ReactElement; external?: boolean };
 
 const items: LinkItem[] = [
   { label: "Falar com Ítalo", sub: "Consultor", href: "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20vim%20pelo%20link%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis!", primary: true, icon: WhatsAppIcon, external: true },
