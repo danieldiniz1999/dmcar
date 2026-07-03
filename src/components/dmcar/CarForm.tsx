@@ -72,9 +72,30 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
   }, [existingFotos]);
 
   function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    setError(null);
     const files = Array.from(e.target.files ?? []);
-    setNewFiles((prev) => [...prev, ...files]);
+    const totalAtual = existingFotos.length + newFiles.length;
+    const espacoLivre = MAX_FOTOS - totalAtual;
+    if (espacoLivre <= 0) {
+      setError(`Limite de ${MAX_FOTOS} fotos por carro.`);
+      e.target.value = "";
+      return;
+    }
+    const aceitos: File[] = [];
+    const rejeitadosTamanho: string[] = [];
+    for (const f of files) {
+      if (aceitos.length >= espacoLivre) break;
+      if (f.size > MAX_FILE_BYTES) { rejeitadosTamanho.push(f.name); continue; }
+      aceitos.push(f);
+    }
+    const avisos: string[] = [];
+    if (files.length > espacoLivre) avisos.push(`Só cabem mais ${espacoLivre} foto(s) (máx. ${MAX_FOTOS}).`);
+    if (rejeitadosTamanho.length) avisos.push(`Arquivo(s) acima de ${MAX_FILE_MB}MB ignorado(s): ${rejeitadosTamanho.join(", ")}.`);
+    if (avisos.length) setError(avisos.join(" "));
+    if (aceitos.length) setNewFiles((prev) => [...prev, ...aceitos]);
+    e.target.value = "";
   }
+
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
