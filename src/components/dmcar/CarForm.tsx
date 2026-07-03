@@ -117,8 +117,13 @@ export function CarForm({ car, onClose, onSaved }: { car: Car | null; onClose: (
       }
 
 
+      const soDigitos = (v: string) => {
+        const n = parseInt(String(v).replace(/\D/g, ""), 10);
+        return Number.isFinite(n) ? n : 0;
+      };
       const fotos = [...existingFotos, ...uploadedPaths];
-      const payload = { ...form, fotos, preco: form.preco === "" ? 0 : Number(form.preco), ano: form.ano === "" ? 0 : Number(form.ano), km: form.km === "" ? 0 : Number(form.km) };
+      const payload = { ...form, fotos, preco: soDigitos(form.preco), ano: soDigitos(form.ano), km: soDigitos(form.km) };
+
 
       if (car) {
         const { error } = await supabase.from("cars").update(payload).eq("id", car.id);
