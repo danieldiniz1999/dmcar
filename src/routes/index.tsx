@@ -7,6 +7,8 @@ import { WhatsAppFloat } from "@/components/dmcar/WhatsAppFloat";
 import { CookieBanner } from "@/components/dmcar/CookieBanner";
 import { Reveal } from "@/components/dmcar/Reveal";
 import { StatNumber } from "@/components/dmcar/StatNumber";
+import { CarGallery } from "@/components/dmcar/CarGallery";
+import { CarDetailModal } from "@/components/dmcar/CarDetailModal";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import heroCar from "@/assets/hero-car.webp";
