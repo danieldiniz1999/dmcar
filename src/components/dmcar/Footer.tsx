@@ -42,8 +42,8 @@ export function Footer() {
         <div>
           <h4 className="font-display text-gold text-lg mb-4 tracking-wider">NOSSAS UNIDADES</h4>
           <ul className="space-y-3 text-sm text-white/70">
-            <li><span className="text-white font-semibold">Loja 1</span><br/>Av. Mister Hull, 4971 — Antônio Bezerra<br/>(85) 98719-8049</li>
-            <li><span className="text-white font-semibold">Loja 2</span><br/>Av. Mister Hull, 4940 — Antônio Bezerra<br/>(85) 98719-8049</li>
+            <li><span className="text-white font-semibold">Loja 1</span><br/>Av. Mister Hull, 4971 — Antônio Bezerra<br/>(85) 98884-9957</li>
+            <li><span className="text-white font-semibold">Loja 2</span><br/>Av. Mister Hull, 4940 — Antônio Bezerra<br/>(85) 98884-9957</li>
             <li><span className="text-white font-semibold">Oficina</span><br/>Rua Gen. Alípio dos Santos, 1357 — Quintino Cunha<br/>(85) 3879-4106</li>
           </ul>
         </div>
