@@ -75,8 +75,17 @@ function LinkButton({ item }: { item: LinkItem }) {
   const iconCls = "w-5 h-5 shrink-0";
   const arrowCls = "w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform";
   const Inner = (
-    <div className={`group flex items-center gap-3 rounded-2xl px-5 py-4 transition-all hover:scale-[1.02] ${cls}`}>
-      <item.icon className={iconCls} />
+    <div className={`group flex items-center gap-3 rounded-2xl px-4 py-3 transition-all hover:scale-[1.02] ${cls}`}>
+      {item.photo ? (
+        <img
+          src={item.photo}
+          alt={item.label}
+          className="w-11 h-11 rounded-full object-cover shrink-0 ring-2 ring-black/20"
+          style={{ objectPosition: item.photoPos ?? "center 20%" }}
+        />
+      ) : (
+        <item.icon className={iconCls} />
+      )}
       <div className="flex-1 text-left">
         <div className="font-semibold text-sm">{item.label}</div>
         {item.sub && <div className="text-[11px] opacity-70">{item.sub}</div>}
