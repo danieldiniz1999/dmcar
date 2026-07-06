@@ -34,6 +34,7 @@ const items: LinkItem[] = [
   { label: "Consultor Wallyson", sub: "WhatsApp", href: "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true, photo: wallysonFoto.url, photoPos: "center 20%" },
   { label: "WhatsApp — Loja 1", sub: "Av. Mister Hull, 4971", href: "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%201%21", icon: WhatsAppIcon, external: true },
   { label: "WhatsApp — Loja 2", sub: "Av. Mister Hull, 4940", href: "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202%21", icon: WhatsAppIcon, external: true },
+  { label: "Compra e Avaliação de Carros", sub: "Vender meu veículo para a DMCAR", href: "https://wa.me/5585987198049?text=Ol%C3%A1%21%20Venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20tenho%20um%20ve%C3%ADculo%20que%20gostaria%20de%20oferecer%20para%20avalia%C3%A7%C3%A3o%20e%20poss%C3%ADvel%20venda.%20Podemos%20conversar%3F", primary: true, icon: WhatsAppIcon, external: true },
   { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
   { label: "Instagram da DMCAR", sub: "@dmcarveiculos", href: "https://www.instagram.com/dmcarveiculos", icon: (p) => <Instagram {...p} />, external: true },
 ];
