@@ -3,6 +3,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { ArrowRight, Instagram, Globe } from "lucide-react";
 import { Logo } from "@/components/dmcar/Logo";
+import keslleyFoto from "@/assets/keslley.jpg.asset.json";
+import italoFoto from "@/assets/italo.jpg.asset.json";
+import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
 
 export const Route = createFileRoute("/links")({
   head: () => ({
@@ -23,12 +26,12 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-type LinkItem = { label: string; sub?: string; href: string; primary?: boolean; icon: (p: { className?: string }) => React.ReactElement; external?: boolean };
+type LinkItem = { label: string; sub?: string; href: string; primary?: boolean; icon: (p: { className?: string }) => React.ReactElement; external?: boolean; photo?: string; photoPos?: string };
 
 const items: LinkItem[] = [
-  { label: "Falar com Keslley", sub: "Consultor", href: "https://wa.me/5585989293760?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true },
-  { label: "Falar com Ítalo", sub: "Consultor", href: "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true },
-  { label: "Falar com Wallyson", sub: "Consultor", href: "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true },
+  { label: "Falar com Keslley", sub: "Consultor", href: "https://wa.me/5585989293760?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true, photo: keslleyFoto.url, photoPos: "center 12%" },
+  { label: "Falar com Ítalo", sub: "Consultor", href: "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true, photo: italoFoto.url, photoPos: "center 20%" },
+  { label: "Falar com Wallyson", sub: "Consultor", href: "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true, photo: wallysonFoto.url, photoPos: "center 20%" },
   { label: "WhatsApp — Loja 1", sub: "Av. Mister Hull, 4971", href: "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%201%21", icon: WhatsAppIcon, external: true },
   { label: "WhatsApp — Loja 2", sub: "Av. Mister Hull, 4940", href: "https://wa.me/5585989293760?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202%21", icon: WhatsAppIcon, external: true },
   { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
@@ -72,8 +75,17 @@ function LinkButton({ item }: { item: LinkItem }) {
   const iconCls = "w-5 h-5 shrink-0";
   const arrowCls = "w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform";
   const Inner = (
-    <div className={`group flex items-center gap-3 rounded-2xl px-5 py-4 transition-all hover:scale-[1.02] ${cls}`}>
-      <item.icon className={iconCls} />
+    <div className={`group flex items-center gap-3 rounded-2xl px-4 py-3 transition-all hover:scale-[1.02] ${cls}`}>
+      {item.photo ? (
+        <img
+          src={item.photo}
+          alt={item.label}
+          className="w-11 h-11 rounded-full object-cover shrink-0 ring-2 ring-black/20"
+          style={{ objectPosition: item.photoPos ?? "center 20%" }}
+        />
+      ) : (
+        <item.icon className={iconCls} />
+      )}
       <div className="flex-1 text-left">
         <div className="font-semibold text-sm">{item.label}</div>
         {item.sub && <div className="text-[11px] opacity-70">{item.sub}</div>}
