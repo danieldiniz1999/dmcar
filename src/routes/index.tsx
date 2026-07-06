@@ -90,7 +90,7 @@ function Hero() {
           </p>
           <div className="hero-rise mt-8 flex flex-col sm:flex-row gap-3" style={{ animationDelay: "450ms" }}>
             <Link to="/showroom" className="btn-primary rounded-full px-7 py-3.5 text-sm text-center">Ver Estoque</Link>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-outline rounded-full px-7 py-3.5 text-sm text-center">Falar com um Consultor</a>
+            <a href="#consultores" className="btn-outline rounded-full px-7 py-3.5 text-sm text-center">Falar com um Consultor</a>
           </div>
         </div>
 
