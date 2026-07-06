@@ -15,6 +15,7 @@ import carSuv from "@/assets/car-suv.webp";
 import carHatch from "@/assets/car-hatch.webp";
 import italoFoto from "@/assets/italo.jpg.asset.json";
 import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
+import keslleyFoto from "@/assets/keslley.jpg.asset.json";
 
 
 
