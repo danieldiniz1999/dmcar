@@ -48,7 +48,7 @@ export const Route = createFileRoute("/")({
 const WA_LOJA = "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%21";
 const WA_ITALO = "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
 const WA_WALLYSON = "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
-const WA_KESLLEY = "https://wa.me/5585988849957?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
+const WA_KESLLEY = "https://wa.me/5585989293760?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
 
 function HomePage() {
   return (
@@ -501,7 +501,7 @@ const unidades = [
     tel: "(85) 98719-8049",
     hora: "Seg–Sex 8h–18h · Sáb 8h–13h · Dom Fechado",
     maps: "https://www.google.com/maps/search/?api=1&query=Av.+Mister+Hull+4940+Antonio+Bezerra+Fortaleza",
-    wa: "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202%21",
+    wa: "https://wa.me/5585989293760?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202%21",
     waLabel: "Falar pelo WhatsApp",
   },
   {
