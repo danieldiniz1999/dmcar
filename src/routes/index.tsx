@@ -384,7 +384,7 @@ function Consultores() {
               <div className="card-vehicle rounded-2xl bg-surface border border-border p-8 text-center h-full flex flex-col">
                 <div className="w-28 h-28 mx-auto rounded-full bg-gold/10 border-2 border-gold/40 overflow-hidden flex items-center justify-center mb-5">
                   {c.foto ? (
-                    <img src={c.foto} alt={c.nome} className="w-full h-full object-cover" style={{ objectPosition: c.pos }} />
+                    <img src={c.foto} alt={c.nome} loading="lazy" decoding="async" width={224} height={224} className="w-full h-full object-cover" style={{ objectPosition: c.pos }} />
                   ) : (
                     <User className="w-12 h-12 text-gold" />
                   )}
