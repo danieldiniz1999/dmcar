@@ -3,6 +3,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { ArrowRight, Instagram, Globe } from "lucide-react";
 import { Logo } from "@/components/dmcar/Logo";
+import keslleyFoto from "@/assets/keslley.jpg.asset.json";
+import italoFoto from "@/assets/italo.jpg.asset.json";
+import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
 
 export const Route = createFileRoute("/links")({
   head: () => ({
