@@ -15,6 +15,7 @@ import carSuv from "@/assets/car-suv.webp";
 import carHatch from "@/assets/car-hatch.webp";
 import italoFoto from "@/assets/italo.jpg.asset.json";
 import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
+import keslleyFoto from "@/assets/keslley.jpg.asset.json";
 
 
 
@@ -357,7 +358,7 @@ function Missao() {
 
 function Consultores() {
   const list = [
-    { nome: "Keslley", link: WA_KESLLEY as string | null, foto: null as string | null },
+    { nome: "Keslley", link: WA_KESLLEY as string | null, foto: keslleyFoto.url as string | null },
     { nome: "Ítalo", link: WA_ITALO, foto: italoFoto.url as string | null },
     { nome: "Wallyson", link: WA_WALLYSON, foto: wallysonFoto.url as string | null },
   ];
