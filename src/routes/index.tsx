@@ -180,32 +180,41 @@ function Estoque() {
     (async () => {
       const { data } = await supabase
         .from("cars")
-        .select("*")
+        .select("id,marca,modelo,ano,km,cambio,cor,preco,destaque,fotos")
         .eq("vendido", false)
         .order("destaque", { ascending: false })
         .order("created_at", { ascending: false })
         .limit(3);
-      const list = data ?? [];
+      const list = (data ?? []) as CarRow[];
       setCars(list);
       const map: Record<string, string> = {};
       const TTL = 12 * 60 * 60 * 1000; // 12h
-      await Promise.all(list.map(async (c) => {
+      const toSign: { id: string; path: string; cacheKey: string }[] = [];
+      for (const c of list) {
         const path = c.fotos?.[0];
-        if (!path) return;
+        if (!path) continue;
         const cacheKey = `dmcar:img:${path}`;
         try {
           const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
           if (raw) {
             const parsed = JSON.parse(raw) as { url: string; exp: number };
-            if (parsed.exp > Date.now()) { map[c.id] = parsed.url; return; }
+            if (parsed.exp > Date.now()) { map[c.id] = parsed.url; continue; }
           }
         } catch {}
-        const { data: signed } = await supabase.storage.from("car-images").createSignedUrl(path, 60 * 60 * 24);
-        if (signed?.signedUrl) {
-          map[c.id] = signed.signedUrl;
-          try { localStorage.setItem(cacheKey, JSON.stringify({ url: signed.signedUrl, exp: Date.now() + TTL })); } catch {}
-        }
-      }));
+        toSign.push({ id: c.id, path, cacheKey });
+      }
+      if (toSign.length) {
+        const { data: signedList } = await supabase.storage
+          .from("car-images")
+          .createSignedUrls(toSign.map(t => t.path), 60 * 60 * 24);
+        signedList?.forEach((s, idx) => {
+          const t = toSign[idx];
+          if (s?.signedUrl && t) {
+            map[t.id] = s.signedUrl;
+            try { localStorage.setItem(t.cacheKey, JSON.stringify({ url: s.signedUrl, exp: Date.now() + TTL })); } catch {}
+          }
+        });
+      }
       setImages(map);
       setLoaded(true);
     })();
