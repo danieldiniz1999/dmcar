@@ -7,6 +7,8 @@ import { WhatsAppFloat } from "@/components/dmcar/WhatsAppFloat";
 import { CookieBanner } from "@/components/dmcar/CookieBanner";
 import { Reveal } from "@/components/dmcar/Reveal";
 import { StatNumber } from "@/components/dmcar/StatNumber";
+import { CarGallery } from "@/components/dmcar/CarGallery";
+import { CarDetailModal } from "@/components/dmcar/CarDetailModal";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import heroCar from "@/assets/hero-car.webp";
@@ -173,8 +175,9 @@ const fallbackCars = [
 
 function Estoque() {
   const [cars, setCars] = useState<CarRow[]>([]);
-  const [images, setImages] = useState<Record<string, string>>({});
+  const [images, setImages] = useState<Record<string, string[]>>({});
   const [loaded, setLoaded] = useState(false);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -187,43 +190,51 @@ function Estoque() {
         .limit(3);
       const list = (data ?? []) as CarRow[];
       setCars(list);
-      const map: Record<string, string> = {};
-      const TTL = 12 * 60 * 60 * 1000; // 12h
-      const toSign: { id: string; path: string; cacheKey: string }[] = [];
+
+      const TTL = 12 * 60 * 60 * 1000;
+      const map: Record<string, string[]> = {};
+      const uncachedPaths: string[] = [];
+      const pathToCars: Record<string, { id: string; index: number }[]> = {};
+
       for (const c of list) {
-        const path = c.fotos?.[0];
-        if (!path) continue;
-        const cacheKey = `dmcar:img:${path}`;
-        try {
-          const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
-          if (raw) {
-            const parsed = JSON.parse(raw) as { url: string; exp: number };
-            if (parsed.exp > Date.now()) { map[c.id] = parsed.url; continue; }
-          }
-        } catch {}
-        toSign.push({ id: c.id, path, cacheKey });
+        const paths = c.fotos ?? [];
+        map[c.id] = new Array(paths.length);
+        paths.forEach((path, i) => {
+          if (!path) return;
+          const cacheKey = `dmcar:img:${path}`;
+          try {
+            const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
+            if (raw) {
+              const parsed = JSON.parse(raw) as { url: string; exp: number };
+              if (parsed.exp > Date.now()) { map[c.id][i] = parsed.url; return; }
+            }
+          } catch {}
+          (pathToCars[path] ||= []).push({ id: c.id, index: i });
+          if (!uncachedPaths.includes(path)) uncachedPaths.push(path);
+        });
       }
-      if (toSign.length) {
+
+      if (uncachedPaths.length) {
         const { data: signedList } = await supabase.storage
           .from("car-images")
-          .createSignedUrls(toSign.map(t => t.path), 60 * 60 * 24);
+          .createSignedUrls(uncachedPaths, 60 * 60 * 24);
         signedList?.forEach((s, idx) => {
-          const t = toSign[idx];
-          if (s?.signedUrl && t) {
-            map[t.id] = s.signedUrl;
-            try { localStorage.setItem(t.cacheKey, JSON.stringify({ url: s.signedUrl, exp: Date.now() + TTL })); } catch {}
+          const path = uncachedPaths[idx];
+          if (!s?.signedUrl || !path) return;
+          try { localStorage.setItem(`dmcar:img:${path}`, JSON.stringify({ url: s.signedUrl, exp: Date.now() + TTL })); } catch {}
+          for (const ref of pathToCars[path] ?? []) {
+            map[ref.id][ref.index] = s.signedUrl;
           }
         });
       }
+
       setImages(map);
       setLoaded(true);
     })();
   }, []);
 
   const useReal = loaded && cars.length > 0;
-  const items = useReal
-    ? cars.map(c => ({ id: c.id, isFallback: false as const, img: images[c.id], destaque: c.destaque, badgeText: c.destaque ? "Destaque" : "Novo", marca: c.marca, modelo: `${c.marca} ${c.modelo} ${c.ano}`, ano: c.ano, km: c.km, cambio: c.cambio, cor: c.cor, preco: Number(c.preco) }))
-    : fallbackCars;
+  const openCar = openId ? cars.find(c => c.id === openId) : null;
 
   return (
     <section id="estoque" className="bg-[#0F0F0F] py-24">
@@ -233,15 +244,42 @@ function Estoque() {
           <p className="mt-3 text-muted-foreground">Uma seleção dos melhores veículos disponíveis agora</p>
         </Reveal>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((c, i) => (
+          {useReal ? cars.map((c, i) => {
+            const imgs = images[c.id] ?? [];
+            const modelo = `${c.marca} ${c.modelo} ${c.ano}`;
+            return (
+              <Reveal key={c.id} delay={i * 100}>
+                <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
+                  <div className="relative">
+                    <CarGallery
+                      images={imgs}
+                      alt={modelo}
+                      onImageClick={() => setOpenId(c.id)}
+                    />
+                    <span className={`absolute top-3 left-3 z-10 ${c.destaque ? "bg-gold text-black" : "bg-white text-black"} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full pointer-events-none`}>{c.destaque ? "Destaque" : "Novo"}</span>
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col">
+                    <h3 className="font-display text-2xl mb-4">{modelo}</h3>
+                    <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground mb-5">
+                      <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-gold" /> {c.ano}</span>
+                      <span className="flex items-center gap-1.5"><Gauge className="w-3.5 h-3.5 text-gold" /> {c.km.toLocaleString("pt-BR")} km</span>
+                      <span className="flex items-center gap-1.5"><Cog className="w-3.5 h-3.5 text-gold" /> {c.cambio}</span>
+                      <span className="flex items-center gap-1.5"><Palette className="w-3.5 h-3.5 text-gold" /> {c.cor}</span>
+                    </div>
+                    <div className="font-mono-d text-3xl text-gold font-bold mb-5 mt-auto">{brl(Number(c.preco))}</div>
+                    <div className="flex gap-2">
+                      <a href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${modelo}!`)}`} target="_blank" rel="noopener noreferrer" className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center">Tenho Interesse</a>
+                      <button type="button" onClick={() => setOpenId(c.id)} className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center">Ver Detalhes</button>
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            );
+          }) : fallbackCars.map((c, i) => (
             <Reveal key={c.id} delay={i * 100}>
               <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
                 <div className="relative aspect-[4/3] bg-black overflow-hidden">
-                  {c.img ? (
-                    <img src={c.img} alt={c.modelo} loading="lazy" decoding="async" width={800} height={600} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
-                  )}
+                  <img src={c.img} alt={c.modelo} loading="lazy" decoding="async" width={800} height={600} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <span className={`absolute top-3 left-3 ${c.destaque ? "bg-gold text-black" : "bg-white text-black"} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full`}>{c.badgeText}</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col">
@@ -270,9 +308,29 @@ function Estoque() {
           </Link>
         </Reveal>
       </div>
+
+      {openCar && (
+        <CarDetailModal
+          car={{
+            id: openCar.id,
+            marca: openCar.marca,
+            modelo: openCar.modelo,
+            ano: openCar.ano,
+            km: openCar.km,
+            cambio: openCar.cambio,
+            cor: openCar.cor,
+            preco: Number(openCar.preco),
+            destaque: openCar.destaque,
+          }}
+          images={images[openCar.id] ?? []}
+          onClose={() => setOpenId(null)}
+          whatsappBase={WA_LOJA}
+        />
+      )}
     </section>
   );
 }
+
 
 
 const timeline = [
