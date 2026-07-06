@@ -26,11 +26,11 @@ function WhatsAppIcon({ className }: { className?: string }) {
 type LinkItem = { label: string; sub?: string; href: string; primary?: boolean; icon: (p: { className?: string }) => React.ReactElement; external?: boolean };
 
 const items: LinkItem[] = [
-  { label: "Falar com Keslley", sub: "Consultor", href: "https://wa.me/5585988849957?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true },
+  { label: "Falar com Keslley", sub: "Consultor", href: "https://wa.me/5585989293760?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true },
   { label: "Falar com Ítalo", sub: "Consultor", href: "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true },
   { label: "Falar com Wallyson", sub: "Consultor", href: "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21", primary: true, icon: WhatsAppIcon, external: true },
   { label: "WhatsApp — Loja 1", sub: "Av. Mister Hull, 4971", href: "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%201%21", icon: WhatsAppIcon, external: true },
-  { label: "WhatsApp — Loja 2", sub: "Av. Mister Hull, 4940", href: "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202%21", icon: WhatsAppIcon, external: true },
+  { label: "WhatsApp — Loja 2", sub: "Av. Mister Hull, 4940", href: "https://wa.me/5585989293760?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%202%21", icon: WhatsAppIcon, external: true },
   { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
   { label: "Instagram da DMCAR", sub: "@dmcarveiculos", href: "https://www.instagram.com/dmcarveiculos", icon: (p) => <Instagram {...p} />, external: true },
 ];
