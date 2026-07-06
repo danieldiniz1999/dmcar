@@ -68,16 +68,22 @@ function LinksPage() {
 
 function LinkButton({ item }: { item: LinkItem }) {
   const cls = item.primary
-    ? "bg-gold text-black border border-gold hover:bg-[#C9A000]"
-    : "bg-surface text-white border border-border hover:bg-gold hover:text-black hover:border-gold";
+    ? "bg-gold text-black border border-gold hover:bg-[#C9A000] hover:shadow-[0_0_24px_rgba(245,197,24,0.55)]"
+    : "bg-surface text-white border border-border hover:border-gold hover:bg-[#141414] hover:shadow-[0_0_20px_rgba(245,197,24,0.35)]";
+  const iconCls = item.primary
+    ? "w-5 h-5 shrink-0"
+    : "w-5 h-5 shrink-0 transition-colors group-hover:text-gold";
+  const arrowCls = item.primary
+    ? "w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
+    : "w-4 h-4 shrink-0 transition-all group-hover:translate-x-1 group-hover:text-gold";
   const Inner = (
     <div className={`group flex items-center gap-3 rounded-2xl px-5 py-4 transition-all hover:scale-[1.02] ${cls}`}>
-      <item.icon className="w-5 h-5 shrink-0" />
+      <item.icon className={iconCls} />
       <div className="flex-1 text-left">
         <div className="font-semibold text-sm">{item.label}</div>
         {item.sub && <div className="text-[11px] opacity-70">{item.sub}</div>}
       </div>
-      <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
+      <ArrowRight className={arrowCls} />
     </div>
   );
   if (item.external) {
