@@ -6,6 +6,8 @@ import { Footer } from "@/components/dmcar/Footer";
 import { WhatsAppFloat } from "@/components/dmcar/WhatsAppFloat";
 import { CookieBanner } from "@/components/dmcar/CookieBanner";
 import { Reveal } from "@/components/dmcar/Reveal";
+import { CarGallery } from "@/components/dmcar/CarGallery";
+import { CarDetailModal } from "@/components/dmcar/CarDetailModal";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -34,13 +36,14 @@ function brl(n: number) { return Number(n).toLocaleString("pt-BR", { style: "cur
 
 function ShowroomPage() {
   const [cars, setCars] = useState<Car[]>([]);
-  const [images, setImages] = useState<Record<string, string>>({});
+  const [images, setImages] = useState<Record<string, string[]>>({});
   const [loading, setLoading] = useState(true);
   const [marca, setMarca] = useState("Todas");
   const [ano, setAno] = useState("Todos");
   const [cambio, setCambio] = useState("Todos");
   const [faixa, setFaixa] = useState("Todas");
   const [visible, setVisible] = useState(9);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -52,34 +55,44 @@ function ShowroomPage() {
         .order("created_at", { ascending: false });
       const list = (data ?? []) as Car[];
       setCars(list);
-      const map: Record<string, string> = {};
-      const TTL = 12 * 60 * 60 * 1000; // 12h
-      const toSign: { id: string; path: string; cacheKey: string }[] = [];
+
+      const TTL = 12 * 60 * 60 * 1000;
+      const map: Record<string, string[]> = {};
+      const uncachedPaths: string[] = [];
+      const pathToCars: Record<string, { id: string; index: number }[]> = {};
+
       for (const c of list) {
-        const path = c.fotos?.[0];
-        if (!path) continue;
-        const cacheKey = `dmcar:img:${path}`;
-        try {
-          const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
-          if (raw) {
-            const parsed = JSON.parse(raw) as { url: string; exp: number };
-            if (parsed.exp > Date.now()) { map[c.id] = parsed.url; continue; }
-          }
-        } catch {}
-        toSign.push({ id: c.id, path, cacheKey });
+        const paths = c.fotos ?? [];
+        map[c.id] = new Array(paths.length);
+        paths.forEach((path, i) => {
+          if (!path) return;
+          const cacheKey = `dmcar:img:${path}`;
+          try {
+            const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
+            if (raw) {
+              const parsed = JSON.parse(raw) as { url: string; exp: number };
+              if (parsed.exp > Date.now()) { map[c.id][i] = parsed.url; return; }
+            }
+          } catch {}
+          (pathToCars[path] ||= []).push({ id: c.id, index: i });
+          if (!uncachedPaths.includes(path)) uncachedPaths.push(path);
+        });
       }
-      if (toSign.length) {
+
+      if (uncachedPaths.length) {
         const { data: signedList } = await supabase.storage
           .from("car-images")
-          .createSignedUrls(toSign.map(t => t.path), 60 * 60 * 24);
+          .createSignedUrls(uncachedPaths, 60 * 60 * 24);
         signedList?.forEach((s, idx) => {
-          const t = toSign[idx];
-          if (s?.signedUrl && t) {
-            map[t.id] = s.signedUrl;
-            try { localStorage.setItem(t.cacheKey, JSON.stringify({ url: s.signedUrl, exp: Date.now() + TTL })); } catch {}
+          const path = uncachedPaths[idx];
+          if (!s?.signedUrl || !path) return;
+          try { localStorage.setItem(`dmcar:img:${path}`, JSON.stringify({ url: s.signedUrl, exp: Date.now() + TTL })); } catch {}
+          for (const ref of pathToCars[path] ?? []) {
+            map[ref.id][ref.index] = s.signedUrl;
           }
         });
       }
+
       setImages(map);
       setLoading(false);
     })();
@@ -97,6 +110,8 @@ function ShowroomPage() {
     if (faixa === "Acima de 120 mil" && Number(v.preco) < 120000) return false;
     return true;
   });
+
+  const openCar = openId ? cars.find(c => c.id === openId) : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -125,32 +140,51 @@ function ShowroomPage() {
           ) : (
             <>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filtered.slice(0, visible).map((v, i) => (
-                  <Reveal key={v.id} delay={(i % 3) * 80}>
-                    <article className="card-vehicle h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
-                      <div className="relative aspect-[4/3] bg-black overflow-hidden">
-                        {images[v.id] ? (
-                          <img src={images[v.id]} alt={v.modelo} loading="lazy" decoding="async" width={800} height={600} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
-                        )}
-                        {v.destaque && <span className="absolute top-3 left-3 bg-gold text-black text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full">Destaque</span>}
-                      </div>
-                      <div className="p-6 flex-1 flex flex-col">
-                        <div className="text-xs text-muted-foreground uppercase tracking-wider">{v.marca}</div>
-                        <h3 className="font-display text-xl mb-3 mt-1">{v.modelo}</h3>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground mb-5">
-                          <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-gold" /> {v.ano}</span>
-                          <span className="flex items-center gap-1.5"><Gauge className="w-3.5 h-3.5 text-gold" /> {v.km.toLocaleString("pt-BR")} km</span>
-                          <span className="flex items-center gap-1.5"><Cog className="w-3.5 h-3.5 text-gold" /> {v.cambio}</span>
-                          <span className="flex items-center gap-1.5"><Palette className="w-3.5 h-3.5 text-gold" /> {v.cor}</span>
+                {filtered.slice(0, visible).map((v, i) => {
+                  const imgs = images[v.id] ?? [];
+                  return (
+                    <Reveal key={v.id} delay={(i % 3) * 80}>
+                      <article className="card-vehicle h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
+                        <div className="relative">
+                          <CarGallery
+                            images={imgs}
+                            alt={`${v.marca} ${v.modelo}`}
+                            onImageClick={() => setOpenId(v.id)}
+                          />
+                          {v.destaque && <span className="absolute top-3 left-3 z-10 bg-gold text-black text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full pointer-events-none">Destaque</span>}
                         </div>
-                        <div className="font-mono-d text-2xl text-gold font-bold mb-4 mt-auto">{brl(Number(v.preco))}</div>
-                        <a href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${v.marca} ${v.modelo} ${v.ano}!`)}`} target="_blank" rel="noopener noreferrer" className="btn-primary rounded-full px-4 py-2.5 text-xs text-center">Tenho Interesse</a>
-                      </div>
-                    </article>
-                  </Reveal>
-                ))}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <div className="text-xs text-muted-foreground uppercase tracking-wider">{v.marca}</div>
+                          <h3 className="font-display text-xl mb-3 mt-1">{v.modelo}</h3>
+                          <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground mb-5">
+                            <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-gold" /> {v.ano}</span>
+                            <span className="flex items-center gap-1.5"><Gauge className="w-3.5 h-3.5 text-gold" /> {v.km.toLocaleString("pt-BR")} km</span>
+                            <span className="flex items-center gap-1.5"><Cog className="w-3.5 h-3.5 text-gold" /> {v.cambio}</span>
+                            <span className="flex items-center gap-1.5"><Palette className="w-3.5 h-3.5 text-gold" /> {v.cor}</span>
+                          </div>
+                          <div className="font-mono-d text-2xl text-gold font-bold mb-4 mt-auto">{brl(Number(v.preco))}</div>
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setOpenId(v.id)}
+                              className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center"
+                            >
+                              Ver Detalhes
+                            </button>
+                            <a
+                              href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${v.marca} ${v.modelo} ${v.ano}!`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center"
+                            >
+                              Tenho Interesse
+                            </a>
+                          </div>
+                        </div>
+                      </article>
+                    </Reveal>
+                  );
+                })}
               </div>
 
               {filtered.length === 0 && (
@@ -166,6 +200,25 @@ function ShowroomPage() {
           )}
         </div>
       </section>
+
+      {openCar && (
+        <CarDetailModal
+          car={{
+            id: openCar.id,
+            marca: openCar.marca,
+            modelo: openCar.modelo,
+            ano: openCar.ano,
+            km: openCar.km,
+            cambio: openCar.cambio,
+            cor: openCar.cor,
+            preco: Number(openCar.preco),
+            destaque: openCar.destaque,
+          }}
+          images={images[openCar.id] ?? []}
+          onClose={() => setOpenId(null)}
+          whatsappBase={WA_LOJA}
+        />
+      )}
 
       <Footer />
       <WhatsAppFloat />
