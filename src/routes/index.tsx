@@ -425,9 +425,9 @@ function Missao() {
 
 function Consultores() {
   const list = [
-    { nome: "Keslley", link: WA_KESLLEY as string | null, foto: keslleyFoto.url as string | null, pos: "center 12%" },
     { nome: "Ítalo", link: WA_ITALO, foto: italoFoto.url as string | null, pos: "center 20%" },
     { nome: "Wallyson", link: WA_WALLYSON, foto: wallysonFoto.url as string | null, pos: "center 20%" },
+    { nome: "Keslley", link: WA_KESLLEY as string | null, foto: keslleyFoto.url as string | null, pos: "center 12%" },
   ];
   return (
     <section id="consultores" className="py-24 scroll-mt-24">
