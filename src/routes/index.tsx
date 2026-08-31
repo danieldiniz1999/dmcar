@@ -1,6 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Search, CreditCard, FileText, Handshake, MapPin, Phone, Mail, Wrench, Shield, Settings, Star, Calendar, Gauge, Cog, Palette, User, ArrowRight } from "lucide-react";
+import {
+  Search,
+  CreditCard,
+  FileText,
+  Handshake,
+  MapPin,
+  Phone,
+  Mail,
+  Wrench,
+  Shield,
+  Settings,
+  Star,
+  Calendar,
+  Gauge,
+  Cog,
+  Palette,
+  User,
+  ArrowRight,
+} from "lucide-react";
 import { Header } from "@/components/dmcar/Header";
 import { Footer } from "@/components/dmcar/Footer";
 import { WhatsAppFloat } from "@/components/dmcar/WhatsAppFloat";
@@ -19,25 +37,38 @@ import italoFoto from "@/assets/italo.jpg.asset.json";
 import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
 import keslleyFoto from "@/assets/keslley.jpg.asset.json";
 
-
-
 type CarRow = Database["public"]["Tables"]["cars"]["Row"];
 
-function brl(n: number) { return Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }); }
-
+function brl(n: number) {
+  return Number(n).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0,
+  });
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "DMCAR Veículos Multimarcas | Seminovos em Fortaleza" },
-      { name: "description", content: "A DMCAR é referência em seminovos em Fortaleza/CE. Mais de 3.000 veículos vendidos, 2 lojas, oficina própria e garantia de 90 dias. Financiamento facilitado." },
-      { name: "keywords", content: "seminovos fortaleza, carros usados fortaleza, DMCAR, comprar carro fortaleza, veículos multimarcas fortaleza, Antonio Bezerra carros" },
+      {
+        name: "description",
+        content:
+          "A DMCAR é referência em seminovos em Fortaleza/CE. Mais de 3.000 veículos vendidos, 2 lojas, oficina própria e garantia de 90 dias. Financiamento facilitado.",
+      },
+      {
+        name: "keywords",
+        content:
+          "seminovos fortaleza, carros usados fortaleza, DMCAR, comprar carro fortaleza, veículos multimarcas fortaleza, Antonio Bezerra carros",
+      },
       { property: "og:title", content: "DMCAR Veículos Multimarcas | Seminovos em Fortaleza" },
-      { property: "og:description", content: "Mais de 3.000 veículos vendidos, 2 lojas e oficina própria. Seu próximo carro é aqui." },
+      {
+        property: "og:description",
+        content:
+          "Mais de 3.000 veículos vendidos, 2 lojas e oficina própria. Seu próximo carro é aqui.",
+      },
       { property: "og:url", content: "https://dmcar.site/" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/60362212-c0c7-4d84-a61f-8d500156b6f5/id-preview-de7ab9ca--1ac273c2-1af2-47d7-b060-822da6bbb27c.lovable.app-1782438766250.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/60362212-c0c7-4d84-a61f-8d500156b6f5/id-preview-de7ab9ca--1ac273c2-1af2-47d7-b060-822da6bbb27c.lovable.app-1782438766250.png" },
     ],
     links: [
       { rel: "canonical", href: "https://dmcar.site/" },
@@ -47,10 +78,14 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const WA_LOJA = "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%21";
-const WA_ITALO = "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
-const WA_WALLYSON = "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
-const WA_KESLLEY = "https://wa.me/5585989293760?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
+const WA_LOJA =
+  "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%21";
+const WA_ITALO =
+  "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
+const WA_WALLYSON =
+  "https://wa.me/5585989338918?text=Ol%C3%A1%20Wallyson%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
+const WA_KESLLEY =
+  "https://wa.me/5585989293760?text=Ol%C3%A1%20Keslley%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21";
 
 function HomePage() {
   return (
@@ -76,7 +111,15 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
-        <img src={heroCar} alt="" className="w-full h-full object-cover opacity-50" width={1920} height={1080} fetchPriority="high" decoding="async" />
+        <img
+          src={heroCar}
+          alt=""
+          className="w-full h-full object-cover opacity-50"
+          width={1920}
+          height={1080}
+          fetchPriority="high"
+          decoding="async"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
       </div>
       <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-24 md:pt-28 md:pb-32">
@@ -86,19 +129,43 @@ function Hero() {
               ✦ Veículos Multimarcas · Fortaleza, CE
             </span>
           </div>
-          <h1 className="hero-rise mt-6 font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] text-white" style={{ animationDelay: "150ms" }}>
-            SEU PRÓXIMO<br/>CARRO É <span className="text-gold">AQUI.</span>
+          <h1
+            className="hero-rise mt-6 font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] text-white"
+            style={{ animationDelay: "150ms" }}
+          >
+            SEU PRÓXIMO
+            <br />
+            CARRO É <span className="text-gold">AQUI.</span>
           </h1>
-          <p className="hero-rise mt-6 max-w-xl text-lg text-muted-foreground" style={{ animationDelay: "300ms" }}>
+          <p
+            className="hero-rise mt-6 max-w-xl text-lg text-muted-foreground"
+            style={{ animationDelay: "300ms" }}
+          >
             Seminovos selecionados, financiamento facilitado e total transparência na negociação.
           </p>
-          <div className="hero-rise mt-8 flex flex-col sm:flex-row gap-3" style={{ animationDelay: "450ms" }}>
-            <Link to="/showroom" className="btn-primary rounded-full px-7 py-3.5 text-sm text-center">Ver Estoque</Link>
-            <a href="#consultores" className="btn-outline rounded-full px-7 py-3.5 text-sm text-center">Falar com um Consultor</a>
+          <div
+            className="hero-rise mt-8 flex flex-col sm:flex-row gap-3"
+            style={{ animationDelay: "450ms" }}
+          >
+            <Link
+              to="/showroom"
+              className="btn-primary rounded-full px-7 py-3.5 text-sm text-center"
+            >
+              Ver Estoque
+            </Link>
+            <a
+              href="#consultores"
+              className="btn-outline rounded-full px-7 py-3.5 text-sm text-center"
+            >
+              Falar com um Consultor
+            </a>
           </div>
         </div>
 
-        <div className="hero-rise mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 border-t border-border pt-10" style={{ animationDelay: "650ms" }}>
+        <div
+          className="hero-rise mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 border-t border-border pt-10"
+          style={{ animationDelay: "650ms" }}
+        >
           <StatNumber value={3000} suffix="+" label="Veículos Vendidos" />
           <StatNumber value={11} suffix="Anos" label="de DMCAR" />
           <StatNumber value={20} suffix="Anos" label="com Carros" />
@@ -116,7 +183,9 @@ function Stats() {
       <div className="mx-auto max-w-7xl px-6">
         <Reveal className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="font-display text-4xl md:text-5xl text-white">DMCAR EM NÚMEROS</h2>
-          <p className="mt-3 text-muted-foreground">Duas décadas de dedicação. Resultados que você pode confiar.</p>
+          <p className="mt-3 text-muted-foreground">
+            Duas décadas de dedicação. Resultados que você pode confiar.
+          </p>
         </Reveal>
         <Reveal>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-y sm:divide-y-0 lg:divide-x divide-border">
@@ -128,7 +197,9 @@ function Stats() {
           </div>
         </Reveal>
         <Reveal delay={150} className="mt-12 text-center">
-          <p className="italic text-muted-foreground">"Cada número representa uma história. Cada história, um cliente que confiou na DMCAR."</p>
+          <p className="italic text-muted-foreground">
+            "Cada número representa uma história. Cada história, um cliente que confiou na DMCAR."
+          </p>
         </Reveal>
       </div>
     </section>
@@ -136,10 +207,26 @@ function Stats() {
 }
 
 const dif = [
-  { icon: Search, title: "Veículos Vistoriados", text: "Cada carro passa por inspeção rigorosa antes de entrar no estoque." },
-  { icon: CreditCard, title: "Financiamento Facilitado", text: "Trabalhamos com os melhores bancos para aprovar seu crédito." },
-  { icon: FileText, title: "Documentação Inclusa", text: "Cuidamos de toda a burocracia para você não ter dor de cabeça." },
-  { icon: Handshake, title: "Negociação Transparente", text: "Sem letras miúdas. Você sabe exatamente o que está comprando." },
+  {
+    icon: Search,
+    title: "Veículos Vistoriados",
+    text: "Cada carro passa por inspeção rigorosa antes de entrar no estoque.",
+  },
+  {
+    icon: CreditCard,
+    title: "Financiamento Facilitado",
+    text: "Trabalhamos com os melhores bancos para aprovar seu crédito.",
+  },
+  {
+    icon: FileText,
+    title: "Documentação Inclusa",
+    text: "Cuidamos de toda a burocracia para você não ter dor de cabeça.",
+  },
+  {
+    icon: Handshake,
+    title: "Negociação Transparente",
+    text: "Sem letras miúdas. Você sabe exatamente o que está comprando.",
+  },
 ];
 
 function Diferenciais() {
@@ -168,9 +255,48 @@ function Diferenciais() {
 }
 
 const fallbackCars = [
-  { id: "fb1", img: carSedan, isFallback: true, destaque: true, badgeText: "Destaque", marca: "Toyota", modelo: "Toyota Corolla XEi 2022", ano: 2022, km: 32500, cambio: "Automático", cor: "Prata", preco: 119900 },
-  { id: "fb2", img: carSuv, isFallback: true, destaque: false, badgeText: "Novo", marca: "Jeep", modelo: "Jeep Compass Limited 2023", ano: 2023, km: 18900, cambio: "Automático", cor: "Cinza", preco: 159900 },
-  { id: "fb3", img: carHatch, isFallback: true, destaque: true, badgeText: "Destaque", marca: "Hyundai", modelo: "Hyundai HB20 Comfort 2022", ano: 2022, km: 24100, cambio: "Manual", cor: "Vermelho", preco: 72900 },
+  {
+    id: "fb1",
+    img: carSedan,
+    isFallback: true,
+    destaque: true,
+    badgeText: "Destaque",
+    marca: "Toyota",
+    modelo: "Toyota Corolla XEi 2022",
+    ano: 2022,
+    km: 32500,
+    cambio: "Automático",
+    cor: "Prata",
+    preco: 119900,
+  },
+  {
+    id: "fb2",
+    img: carSuv,
+    isFallback: true,
+    destaque: false,
+    badgeText: "Novo",
+    marca: "Jeep",
+    modelo: "Jeep Compass Limited 2023",
+    ano: 2023,
+    km: 18900,
+    cambio: "Automático",
+    cor: "Cinza",
+    preco: 159900,
+  },
+  {
+    id: "fb3",
+    img: carHatch,
+    isFallback: true,
+    destaque: true,
+    badgeText: "Destaque",
+    marca: "Hyundai",
+    modelo: "Hyundai HB20 Comfort 2022",
+    ano: 2022,
+    km: 24100,
+    cambio: "Manual",
+    cor: "Vermelho",
+    preco: 72900,
+  },
 ];
 
 function Estoque() {
@@ -206,9 +332,14 @@ function Estoque() {
             const raw = typeof window !== "undefined" ? localStorage.getItem(cacheKey) : null;
             if (raw) {
               const parsed = JSON.parse(raw) as { url: string; exp: number };
-              if (parsed.exp > Date.now()) { map[c.id][i] = parsed.url; return; }
+              if (parsed.exp > Date.now()) {
+                map[c.id][i] = parsed.url;
+                return;
+              }
             }
-          } catch {}
+          } catch {
+            // Invalid or unavailable cache entries are fetched again below.
+          }
           (pathToCars[path] ||= []).push({ id: c.id, index: i });
           if (!uncachedPaths.includes(path)) uncachedPaths.push(path);
         });
@@ -221,7 +352,14 @@ function Estoque() {
         signedList?.forEach((s, idx) => {
           const path = uncachedPaths[idx];
           if (!s?.signedUrl || !path) return;
-          try { localStorage.setItem(`dmcar:img:${path}`, JSON.stringify({ url: s.signedUrl, exp: Date.now() + TTL })); } catch {}
+          try {
+            localStorage.setItem(
+              `dmcar:img:${path}`,
+              JSON.stringify({ url: s.signedUrl, exp: Date.now() + TTL }),
+            );
+          } catch {
+            // Storage cache is optional; signed URLs still work without it.
+          }
           for (const ref of pathToCars[path] ?? []) {
             map[ref.id][ref.index] = s.signedUrl;
           }
@@ -234,76 +372,146 @@ function Estoque() {
   }, []);
 
   const useReal = loaded && cars.length > 0;
-  const openCar = openId ? cars.find(c => c.id === openId) : null;
+  const openCar = openId ? cars.find((c) => c.id === openId) : null;
 
   return (
     <section id="estoque" className="bg-[#0F0F0F] py-24">
       <div className="mx-auto max-w-7xl px-6">
         <Reveal className="text-center mb-14">
           <h2 className="font-display text-4xl md:text-5xl">DESTAQUES DO ESTOQUE</h2>
-          <p className="mt-3 text-muted-foreground">Uma seleção dos melhores veículos disponíveis agora</p>
+          <p className="mt-3 text-muted-foreground">
+            Uma seleção dos melhores veículos disponíveis agora
+          </p>
         </Reveal>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {useReal ? cars.map((c, i) => {
-            const imgs = images[c.id] ?? [];
-            const modelo = `${c.marca} ${c.modelo} ${c.ano}`;
-            return (
-              <Reveal key={c.id} delay={i * 100}>
-                <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
-                  <div className="relative">
-                    <CarGallery
-                      images={imgs}
-                      alt={modelo}
-                      onImageClick={() => setOpenId(c.id)}
-                    />
-                    <span className={`absolute top-3 left-3 z-10 ${c.destaque ? "bg-gold text-black" : "bg-white text-black"} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full pointer-events-none`}>{c.destaque ? "Destaque" : "Novo"}</span>
-                  </div>
-                  <div className="p-6 flex-1 flex flex-col">
-                    <h3 className="font-display text-2xl mb-4">{modelo}</h3>
-                    <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground mb-5">
-                      <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-gold" /> {c.ano}</span>
-                      <span className="flex items-center gap-1.5"><Gauge className="w-3.5 h-3.5 text-gold" /> {c.km.toLocaleString("pt-BR")} km</span>
-                      <span className="flex items-center gap-1.5"><Cog className="w-3.5 h-3.5 text-gold" /> {c.cambio}</span>
-                      <span className="flex items-center gap-1.5"><Palette className="w-3.5 h-3.5 text-gold" /> {c.cor}</span>
+          {useReal
+            ? cars.map((c, i) => {
+                const imgs = images[c.id] ?? [];
+                const modelo = `${c.marca} ${c.modelo} ${c.ano}`;
+                return (
+                  <Reveal key={c.id} delay={i * 100}>
+                    <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
+                      <div className="relative">
+                        <CarGallery
+                          images={imgs}
+                          alt={modelo}
+                          onImageClick={() => setOpenId(c.id)}
+                        />
+                        <span
+                          className={`absolute top-3 left-3 z-10 ${c.destaque ? "bg-gold text-black" : "bg-white text-black"} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full pointer-events-none`}
+                        >
+                          {c.destaque ? "Destaque" : "Novo"}
+                        </span>
+                      </div>
+                      <div className="p-6 flex-1 flex flex-col">
+                        <h3 className="font-display text-2xl mb-4">{modelo}</h3>
+                        <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground mb-5">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar className="w-3.5 h-3.5 text-gold" /> {c.ano}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Gauge className="w-3.5 h-3.5 text-gold" />{" "}
+                            {c.km.toLocaleString("pt-BR")} km
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Cog className="w-3.5 h-3.5 text-gold" /> {c.cambio}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Palette className="w-3.5 h-3.5 text-gold" /> {c.cor}
+                          </span>
+                        </div>
+                        <div className="font-mono-d text-3xl text-gold font-bold mb-5 mt-auto">
+                          {brl(Number(c.preco))}
+                        </div>
+                        <div className="flex gap-2">
+                          <a
+                            href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${modelo}!`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center"
+                          >
+                            Tenho Interesse
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => setOpenId(c.id)}
+                            className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center"
+                          >
+                            Ver Detalhes
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  </Reveal>
+                );
+              })
+            : fallbackCars.map((c, i) => (
+                <Reveal key={c.id} delay={i * 100}>
+                  <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
+                    <div className="relative aspect-[4/3] bg-black overflow-hidden">
+                      <img
+                        src={c.img}
+                        alt={c.modelo}
+                        loading="lazy"
+                        decoding="async"
+                        width={800}
+                        height={600}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span
+                        className={`absolute top-3 left-3 ${c.destaque ? "bg-gold text-black" : "bg-white text-black"} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full`}
+                      >
+                        {c.badgeText}
+                      </span>
                     </div>
-                    <div className="font-mono-d text-3xl text-gold font-bold mb-5 mt-auto">{brl(Number(c.preco))}</div>
-                    <div className="flex gap-2">
-                      <a href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${modelo}!`)}`} target="_blank" rel="noopener noreferrer" className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center">Tenho Interesse</a>
-                      <button type="button" onClick={() => setOpenId(c.id)} className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center">Ver Detalhes</button>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <h3 className="font-display text-2xl mb-4">{c.modelo}</h3>
+                      <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground mb-5">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-gold" /> {c.ano}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Gauge className="w-3.5 h-3.5 text-gold" /> {c.km.toLocaleString("pt-BR")}{" "}
+                          km
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Cog className="w-3.5 h-3.5 text-gold" /> {c.cambio}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Palette className="w-3.5 h-3.5 text-gold" /> {c.cor}
+                        </span>
+                      </div>
+                      <div className="font-mono-d text-3xl text-gold font-bold mb-5 mt-auto">
+                        {brl(c.preco)}
+                      </div>
+                      <div className="flex gap-2">
+                        <a
+                          href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${c.modelo}!`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center"
+                        >
+                          Tenho Interesse
+                        </a>
+                        <Link
+                          to="/showroom"
+                          className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center"
+                        >
+                          Ver Detalhes
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              </Reveal>
-            );
-          }) : fallbackCars.map((c, i) => (
-            <Reveal key={c.id} delay={i * 100}>
-              <article className="card-vehicle group h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
-                <div className="relative aspect-[4/3] bg-black overflow-hidden">
-                  <img src={c.img} alt={c.modelo} loading="lazy" decoding="async" width={800} height={600} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <span className={`absolute top-3 left-3 ${c.destaque ? "bg-gold text-black" : "bg-white text-black"} text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full`}>{c.badgeText}</span>
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="font-display text-2xl mb-4">{c.modelo}</h3>
-                  <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground mb-5">
-                    <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-gold" /> {c.ano}</span>
-                    <span className="flex items-center gap-1.5"><Gauge className="w-3.5 h-3.5 text-gold" /> {c.km.toLocaleString("pt-BR")} km</span>
-                    <span className="flex items-center gap-1.5"><Cog className="w-3.5 h-3.5 text-gold" /> {c.cambio}</span>
-                    <span className="flex items-center gap-1.5"><Palette className="w-3.5 h-3.5 text-gold" /> {c.cor}</span>
-                  </div>
-                  <div className="font-mono-d text-3xl text-gold font-bold mb-5 mt-auto">{brl(c.preco)}</div>
-                  <div className="flex gap-2">
-                    <a href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${c.modelo}!`)}`} target="_blank" rel="noopener noreferrer" className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center">Tenho Interesse</a>
-                    <Link to="/showroom" className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center">Ver Detalhes</Link>
-                  </div>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+                  </article>
+                </Reveal>
+              ))}
         </div>
 
         <Reveal className="mt-14 text-center">
           <p className="text-muted-foreground mb-5">Confira todo o nosso estoque atualizado.</p>
-          <Link to="/showroom" className="inline-flex items-center gap-2 btn-primary rounded-full px-8 py-4 text-base">
+          <Link
+            to="/showroom"
+            className="inline-flex items-center gap-2 btn-primary rounded-full px-8 py-4 text-base"
+          >
             Ver Showroom Completo <ArrowRight className="w-4 h-4" />
           </Link>
         </Reveal>
@@ -331,13 +539,35 @@ function Estoque() {
   );
 }
 
-
-
 const timeline = [
-  { ano: "2005", marco: "O Começo nas Mãos", titulo: "Da Mecânica à Excelência", texto: "Tudo começou com uma chave de fenda e muita determinação. Diogo Microni, movido pela paixão pela mecânica automotiva, abriu sua própria oficina e aprendeu na prática o que os livros não ensinam: que confiança se constrói parafuso por parafuso, cliente por cliente. Por anos, foi ele mesmo quem esteve sob cada carro, garantindo cada serviço com as próprias mãos." },
-  { ano: "2015", marco: "Um Novo Motor", titulo: "Nasce a DMCAR Veículos", texto: "Após uma década construindo reputação no setor de serviços, Diogo enxergou uma oportunidade maior. Com o mesmo rigor técnico e a mesma ética que marcaram seus anos de oficina, fundou a DMCAR Veículos — trazendo para o mercado de seminovos um padrão de qualidade que os clientes simplesmente não encontravam em outro lugar." },
-  { ano: "2020", marco: "Acelerando", titulo: "Crescimento que Fala por Si", texto: "Em poucos anos, a DMCAR se consolidou como uma das revendedoras mais respeitadas de Fortaleza. O boca a boca dos clientes satisfeitos foi o maior marketing. Cada veículo vendido com transparência virou um cliente fiel. Cada negociação honesta virou uma indicação." },
-  { ano: "Hoje", marco: "3.000+ Veículos e Contando", titulo: "Uma Marca de Credibilidade", texto: "Com mais de 3.000 veículos vendidos e uma comunidade de clientes que retornam e indicam, a DMCAR chegou onde chegou sem atalhos. Diogo Microni segue à frente do negócio com os mesmos valores do primeiro dia — porque para ele, o verdadeiro destino não é uma conquista, é a coragem de continuar acelerando rumo ao próximo horizonte." },
+  {
+    ano: "2005",
+    marco: "O Começo nas Mãos",
+    titulo: "Da Mecânica à Excelência",
+    texto:
+      "Tudo começou com uma chave de fenda e muita determinação. Diogo Microni, movido pela paixão pela mecânica automotiva, abriu sua própria oficina e aprendeu na prática o que os livros não ensinam: que confiança se constrói parafuso por parafuso, cliente por cliente. Por anos, foi ele mesmo quem esteve sob cada carro, garantindo cada serviço com as próprias mãos.",
+  },
+  {
+    ano: "2015",
+    marco: "Um Novo Motor",
+    titulo: "Nasce a DMCAR Veículos",
+    texto:
+      "Após uma década construindo reputação no setor de serviços, Diogo enxergou uma oportunidade maior. Com o mesmo rigor técnico e a mesma ética que marcaram seus anos de oficina, fundou a DMCAR Veículos — trazendo para o mercado de seminovos um padrão de qualidade que os clientes simplesmente não encontravam em outro lugar.",
+  },
+  {
+    ano: "2020",
+    marco: "Acelerando",
+    titulo: "Crescimento que Fala por Si",
+    texto:
+      "Em poucos anos, a DMCAR se consolidou como uma das revendedoras mais respeitadas de Fortaleza. O boca a boca dos clientes satisfeitos foi o maior marketing. Cada veículo vendido com transparência virou um cliente fiel. Cada negociação honesta virou uma indicação.",
+  },
+  {
+    ano: "Hoje",
+    marco: "3.000+ Veículos e Contando",
+    titulo: "Uma Marca de Credibilidade",
+    texto:
+      "Com mais de 3.000 veículos vendidos e uma comunidade de clientes que retornam e indicam, a DMCAR chegou onde chegou sem atalhos. Diogo Microni segue à frente do negócio com os mesmos valores do primeiro dia — porque para ele, o verdadeiro destino não é uma conquista, é a coragem de continuar acelerando rumo ao próximo horizonte.",
+  },
 ];
 
 function Historia() {
@@ -346,12 +576,16 @@ function Historia() {
       <div className="mx-auto max-w-5xl px-6">
         <Reveal className="text-center mb-12">
           <h2 className="font-display text-4xl md:text-5xl">NOSSA HISTÓRIA</h2>
-          <p className="mt-3 text-muted-foreground">20 anos de motor ligado. Uma trajetória construída com suor, paixão e respeito.</p>
+          <p className="mt-3 text-muted-foreground">
+            20 anos de motor ligado. Uma trajetória construída com suor, paixão e respeito.
+          </p>
         </Reveal>
 
         <Reveal className="max-w-3xl mx-auto text-center mb-16">
           <p className="text-lg text-white/90 leading-relaxed">
-            "Antes de se tornar referência no mercado automobilístico de Fortaleza, a DMCAR nasceu de algo que nenhum manual ensina: <span className="text-gold">a coragem de transformar paixão em propósito.</span>"
+            "Antes de se tornar referência no mercado automobilístico de Fortaleza, a DMCAR nasceu
+            de algo que nenhum manual ensina:{" "}
+            <span className="text-gold">a coragem de transformar paixão em propósito.</span>"
           </p>
         </Reveal>
 
@@ -359,14 +593,23 @@ function Historia() {
           <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-gold/0 via-gold/50 to-gold/0 md:-translate-x-1/2" />
           {timeline.map((t, i) => (
             <Reveal key={t.ano} delay={i * 100}>
-              <div className={`relative mb-12 md:grid md:grid-cols-2 md:gap-12 ${i % 2 === 0 ? "" : "md:[&>div:first-child]:order-2"}`}>
+              <div
+                className={`relative mb-12 md:grid md:grid-cols-2 md:gap-12 ${i % 2 === 0 ? "" : "md:[&>div:first-child]:order-2"}`}
+              >
                 <div className={`hidden md:block ${i % 2 === 0 ? "text-right" : "text-left"}`}>
                   <div className="font-mono-d text-5xl text-gold font-black">{t.ano}</div>
                 </div>
                 <div className="relative">
-                  <span className="absolute -left-[34px] md:left-auto md:-translate-x-[calc(50%+24px)] md:top-2 top-2 w-3 h-3 rounded-full bg-gold ring-4 ring-background" style={{ left: "-29px" }} />
-                  <div className="md:hidden font-mono-d text-3xl text-gold font-black mb-1">{t.ano}</div>
-                  <div className="text-xs uppercase tracking-widest text-muted-foreground mb-2">📍 {t.marco}</div>
+                  <span
+                    className="absolute -left-[34px] md:left-auto md:-translate-x-[calc(50%+24px)] md:top-2 top-2 w-3 h-3 rounded-full bg-gold ring-4 ring-background"
+                    style={{ left: "-29px" }}
+                  />
+                  <div className="md:hidden font-mono-d text-3xl text-gold font-black mb-1">
+                    {t.ano}
+                  </div>
+                  <div className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
+                    📍 {t.marco}
+                  </div>
                   <h3 className="font-display text-2xl md:text-3xl mb-3">{t.titulo}</h3>
                   <p className="text-sm text-white/75 leading-relaxed">{t.texto}</p>
                 </div>
@@ -374,15 +617,19 @@ function Historia() {
             </Reveal>
           ))}
         </div>
-
       </div>
-
     </section>
   );
 }
 
 function Missao() {
-  const valores = ["Transparência em cada negociação", "Respeito e atenção ao cliente", "Compromisso com a qualidade", "Agilidade no processo de compra", "Responsabilidade e ética profissional"];
+  const valores = [
+    "Transparência em cada negociação",
+    "Respeito e atenção ao cliente",
+    "Compromisso com a qualidade",
+    "Agilidade no processo de compra",
+    "Responsabilidade e ética profissional",
+  ];
   return (
     <section id="missao" className="bg-[#0F0F0F] py-24">
       <div className="mx-auto max-w-7xl px-6">
@@ -393,13 +640,21 @@ function Missao() {
           <Reveal>
             <div className="rounded-2xl bg-surface border border-border border-l-4 border-l-gold p-8 h-full">
               <div className="text-xs uppercase tracking-widest text-gold mb-3">Missão</div>
-              <p className="text-white/85 leading-relaxed">"Conectar pessoas ao carro dos seus sonhos com honestidade, agilidade e o melhor custo-benefício do mercado. Na DMCAR, cada venda é o início de um relacionamento de confiança."</p>
+              <p className="text-white/85 leading-relaxed">
+                "Conectar pessoas ao carro dos seus sonhos com honestidade, agilidade e o melhor
+                custo-benefício do mercado. Na DMCAR, cada venda é o início de um relacionamento de
+                confiança."
+              </p>
             </div>
           </Reveal>
           <Reveal delay={100}>
             <div className="rounded-2xl bg-surface border border-border border-l-4 border-l-gold p-8 h-full">
               <div className="text-xs uppercase tracking-widest text-gold mb-3">Visão</div>
-              <p className="text-white/85 leading-relaxed">"Ser referência em Fortaleza e região como a agência multimarcas mais confiável, reconhecida pela excelência no atendimento e pela qualidade dos veículos que comercializa."</p>
+              <p className="text-white/85 leading-relaxed">
+                "Ser referência em Fortaleza e região como a agência multimarcas mais confiável,
+                reconhecida pela excelência no atendimento e pela qualidade dos veículos que
+                comercializa."
+              </p>
             </div>
           </Reveal>
         </div>
@@ -407,8 +662,11 @@ function Missao() {
           <div className="rounded-2xl bg-surface border border-border p-8">
             <div className="text-xs uppercase tracking-widest text-gold mb-6">Valores</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-              {valores.map(v => (
-                <div key={v} className="flex items-center gap-3 rounded-xl bg-gold/5 border border-gold/20 px-4 py-4 text-sm text-white/90 hover:border-gold/50 hover:bg-gold/10 transition-colors">
+              {valores.map((v) => (
+                <div
+                  key={v}
+                  className="flex items-center gap-3 rounded-xl bg-gold/5 border border-gold/20 px-4 py-4 text-sm text-white/90 hover:border-gold/50 hover:bg-gold/10 transition-colors"
+                >
                   <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center">
                     <Star className="w-4 h-4 text-gold fill-gold" />
                   </span>
@@ -426,15 +684,27 @@ function Missao() {
 function Consultores() {
   const list = [
     { nome: "Ítalo", link: WA_ITALO, foto: italoFoto.url as string | null, pos: "center 20%" },
-    { nome: "Wallyson", link: WA_WALLYSON, foto: wallysonFoto.url as string | null, pos: "center 20%" },
-    { nome: "Keslley", link: WA_KESLLEY as string | null, foto: keslleyFoto.url as string | null, pos: "center 12%" },
+    {
+      nome: "Wallyson",
+      link: WA_WALLYSON,
+      foto: wallysonFoto.url as string | null,
+      pos: "center 20%",
+    },
+    {
+      nome: "Keslley",
+      link: WA_KESLLEY as string | null,
+      foto: keslleyFoto.url as string | null,
+      pos: "center 12%",
+    },
   ];
   return (
     <section id="consultores" className="py-24 scroll-mt-24">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal className="text-center mb-12">
           <h2 className="font-display text-4xl md:text-5xl">ATENDIMENTO PERSONALIZADO</h2>
-          <p className="mt-3 text-muted-foreground">Nossos consultores estão prontos para te ajudar a encontrar o carro ideal.</p>
+          <p className="mt-3 text-muted-foreground">
+            Nossos consultores estão prontos para te ajudar a encontrar o carro ideal.
+          </p>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-6">
           {list.map((c, i) => (
@@ -442,7 +712,16 @@ function Consultores() {
               <div className="card-vehicle rounded-2xl bg-surface border border-border p-8 text-center h-full flex flex-col">
                 <div className="w-28 h-28 mx-auto rounded-full bg-gold/10 border-2 border-gold/40 overflow-hidden flex items-center justify-center mb-5">
                   {c.foto ? (
-                    <img src={c.foto} alt={c.nome} loading="lazy" decoding="async" width={224} height={224} className="w-full h-full object-cover" style={{ objectPosition: c.pos }} />
+                    <img
+                      src={c.foto}
+                      alt={c.nome}
+                      loading="lazy"
+                      decoding="async"
+                      width={224}
+                      height={224}
+                      className="w-full h-full object-cover"
+                      style={{ objectPosition: c.pos }}
+                    />
                   ) : (
                     <User className="w-12 h-12 text-gold" />
                   )}
@@ -451,9 +730,20 @@ function Consultores() {
                 <p className="text-sm text-muted-foreground mb-6">Consultor de Vendas</p>
                 <div className="mt-auto">
                   {c.link ? (
-                    <a href={c.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-white bg-[#25D366] hover:bg-[#1ebe5d] shadow-[0_8px_24px_-6px_rgba(37,211,102,0.55)] transition-all hover:-translate-y-0.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-5 h-5" fill="currentColor" aria-hidden="true">
-                        <path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.468 2.027 7.77L0 32l8.43-2.01A15.934 15.934 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.267 13.267 0 0 1-6.756-1.843l-.484-.287-5.007 1.194 1.235-4.872-.317-.503A13.232 13.232 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.862c-.398-.199-2.354-1.162-2.72-1.294-.365-.133-.631-.199-.897.199-.265.398-1.03 1.294-1.263 1.56-.232.265-.464.298-.863.1-.398-.2-1.681-.619-3.202-1.976-1.183-1.056-1.982-2.36-2.214-2.758-.232-.398-.025-.613.175-.811.18-.178.398-.464.597-.696.2-.232.265-.398.398-.664.133-.265.066-.497-.033-.696-.1-.199-.897-2.162-1.229-2.96-.324-.778-.653-.672-.897-.684-.232-.012-.497-.015-.763-.015-.265 0-.696.1-1.061.497-.365.398-1.394 1.362-1.394 3.322s1.427 3.854 1.626 4.12c.199.265 2.808 4.287 6.803 6.014.951.41 1.693.655 2.271.839.954.303 1.823.26 2.509.158.765-.114 2.354-.963 2.686-1.893.333-.93.333-1.727.232-1.893-.1-.166-.365-.265-.763-.464z"/>
+                    <a
+                      href={c.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-white bg-[#25D366] hover:bg-[#1ebe5d] shadow-[0_8px_24px_-6px_rgba(37,211,102,0.55)] transition-all hover:-translate-y-0.5"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 32 32"
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.468 2.027 7.77L0 32l8.43-2.01A15.934 15.934 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.267 13.267 0 0 1-6.756-1.843l-.484-.287-5.007 1.194 1.235-4.872-.317-.503A13.232 13.232 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.862c-.398-.199-2.354-1.162-2.72-1.294-.365-.133-.631-.199-.897.199-.265.398-1.03 1.294-1.263 1.56-.232.265-.464.298-.863.1-.398-.2-1.681-.619-3.202-1.976-1.183-1.056-1.982-2.36-2.214-2.758-.232-.398-.025-.613.175-.811.18-.178.398-.464.597-.696.2-.232.265-.398.398-.664.133-.265.066-.497-.033-.696-.1-.199-.897-2.162-1.229-2.96-.324-.778-.653-.672-.897-.684-.232-.012-.497-.015-.763-.015-.265 0-.696.1-1.061.497-.365.398-1.394 1.362-1.394 3.322s1.427 3.854 1.626 4.12c.199.265 2.808 4.287 6.803 6.014.951.41 1.693.655 2.271.839.954.303 1.823.26 2.509.158.765-.114 2.354-.963 2.686-1.893.333-.93.333-1.727.232-1.893-.1-.166-.365-.265-.763-.464z" />
                       </svg>
                       Falar com {c.nome}
                     </a>
@@ -467,16 +757,27 @@ function Consultores() {
             </Reveal>
           ))}
         </div>
-
       </div>
     </section>
   );
 }
 
 const garantia = [
-  { icon: Wrench, title: "Revisão Antes da Venda", text: "Todos os veículos passam por uma revisão completa em nossa oficina própria antes de serem disponibilizados, garantindo qualidade, confiabilidade e segurança na sua compra." },
-  { icon: Shield, title: "90 Dias de Garantia", text: "Oferecemos garantia legal de 90 dias para motor e caixa de marchas, proporcionando ainda mais confiança para você adquirir seu veículo com total tranquilidade." },
-  { icon: Settings, title: "Atendimento na Nossa Oficina", text: "Todos os serviços relacionados à garantia são realizados em nossa própria oficina, por equipe técnica especializada, com agilidade, transparência e o padrão de qualidade que nossos clientes merecem." },
+  {
+    icon: Wrench,
+    title: "Revisão Antes da Venda",
+    text: "Todos os veículos passam por uma revisão completa em nossa oficina própria antes de serem disponibilizados, garantindo qualidade, confiabilidade e segurança na sua compra.",
+  },
+  {
+    icon: Shield,
+    title: "90 Dias de Garantia",
+    text: "Oferecemos garantia legal de 90 dias para motor e caixa de marchas, proporcionando ainda mais confiança para você adquirir seu veículo com total tranquilidade.",
+  },
+  {
+    icon: Settings,
+    title: "Atendimento na Nossa Oficina",
+    text: "Todos os serviços relacionados à garantia são realizados em nossa própria oficina, por equipe técnica especializada, com agilidade, transparência e o padrão de qualidade que nossos clientes merecem.",
+  },
 ];
 
 function Garantia() {
@@ -485,7 +786,9 @@ function Garantia() {
       <div className="mx-auto max-w-7xl px-6">
         <Reveal className="text-center mb-14">
           <h2 className="font-display text-4xl md:text-5xl">GARANTIA E QUALIDADE</h2>
-          <p className="mt-3 text-muted-foreground">Na DMCAR, sua segurança e tranquilidade vêm em primeiro lugar.</p>
+          <p className="mt-3 text-muted-foreground">
+            Na DMCAR, sua segurança e tranquilidade vêm em primeiro lugar.
+          </p>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {garantia.map((g, i) => (
@@ -502,7 +805,9 @@ function Garantia() {
         </div>
         <Reveal>
           <div className="rounded-2xl bg-gold text-black p-8 text-center">
-            <p className="font-display text-xl md:text-2xl">Comprando na DMCAR, você tem a certeza de que está fazendo um negócio seguro.</p>
+            <p className="font-display text-xl md:text-2xl">
+              Comprando na DMCAR, você tem a certeza de que está fazendo um negócio seguro.
+            </p>
           </div>
         </Reveal>
       </div>
@@ -511,14 +816,54 @@ function Garantia() {
 }
 
 const deps = [
-  { nome: "Carlos Eduardo M.", bairro: "Meireles", texto: "Fui atendido com muita atenção desde o primeiro contato. Saí com meu carro no mesmo dia e sem nenhuma surpresa na hora de assinar. DMCAR de verdade entrega o que promete!" },
-  { nome: "Rafaela Sousa", bairro: "Jóquei Clube", texto: "Estava com receio de comprar seminovo, mas o Ítalo me explicou tudo com calma e transparência. O carro estava impecável e o preço foi muito justo. Super recomendo!" },
-  { nome: "Marcelo Teixeira", bairro: "Barra do Ceará", texto: "Processo de financiamento que achei que ia ser uma dor de cabeça foi resolvido em menos de um dia. Equipe muito competente e prestativa. Parabéns à DMCAR!" },
-  { nome: "Fernanda Lima", bairro: "Farias Brito", texto: "Já é o segundo carro que compro aqui. Voltei porque sei que vou ser bem atendida e que o carro vai ser exatamente o que prometeram. Confiança total na DMCAR." },
-  { nome: "Diego Albuquerque", bairro: "Mondubim", texto: "O Wallyson me ajudou a escolher o modelo certo para o meu perfil e meu bolso. Saí satisfeito demais! A negociação foi honesta e o pós-venda também foi ótimo." },
-  { nome: "Patrícia Holanda", bairro: "Jurema — Caucaia", texto: "Vim de Caucaia especialmente para conhecer a DMCAR depois de ver nas redes sociais. Valeu cada quilômetro! Carro incrível, atendimento excelente e preço honesto." },
-  { nome: "Renato Cavalcante", bairro: "Antônio Bezerra", texto: "Comprei meu primeiro carro aqui e foi uma experiência incrível. Sem pressão, sem enrolação. Me ajudaram a encontrar exatamente o que eu precisava dentro do meu orçamento." },
-  { nome: "Simone Gadelha", bairro: "Henrique Jorge", texto: "Seriedade e profissionalismo em cada detalhe. Desde a recepção até a entrega do veículo, fui tratada com muito respeito. A DMCAR virou referência pra mim e para minha família!" },
+  {
+    nome: "Carlos Eduardo M.",
+    bairro: "Meireles",
+    texto:
+      "Fui atendido com muita atenção desde o primeiro contato. Saí com meu carro no mesmo dia e sem nenhuma surpresa na hora de assinar. DMCAR de verdade entrega o que promete!",
+  },
+  {
+    nome: "Rafaela Sousa",
+    bairro: "Jóquei Clube",
+    texto:
+      "Estava com receio de comprar seminovo, mas o Ítalo me explicou tudo com calma e transparência. O carro estava impecável e o preço foi muito justo. Super recomendo!",
+  },
+  {
+    nome: "Marcelo Teixeira",
+    bairro: "Barra do Ceará",
+    texto:
+      "Processo de financiamento que achei que ia ser uma dor de cabeça foi resolvido em menos de um dia. Equipe muito competente e prestativa. Parabéns à DMCAR!",
+  },
+  {
+    nome: "Fernanda Lima",
+    bairro: "Farias Brito",
+    texto:
+      "Já é o segundo carro que compro aqui. Voltei porque sei que vou ser bem atendida e que o carro vai ser exatamente o que prometeram. Confiança total na DMCAR.",
+  },
+  {
+    nome: "Diego Albuquerque",
+    bairro: "Mondubim",
+    texto:
+      "O Wallyson me ajudou a escolher o modelo certo para o meu perfil e meu bolso. Saí satisfeito demais! A negociação foi honesta e o pós-venda também foi ótimo.",
+  },
+  {
+    nome: "Patrícia Holanda",
+    bairro: "Jurema — Caucaia",
+    texto:
+      "Vim de Caucaia especialmente para conhecer a DMCAR depois de ver nas redes sociais. Valeu cada quilômetro! Carro incrível, atendimento excelente e preço honesto.",
+  },
+  {
+    nome: "Renato Cavalcante",
+    bairro: "Antônio Bezerra",
+    texto:
+      "Comprei meu primeiro carro aqui e foi uma experiência incrível. Sem pressão, sem enrolação. Me ajudaram a encontrar exatamente o que eu precisava dentro do meu orçamento.",
+  },
+  {
+    nome: "Simone Gadelha",
+    bairro: "Henrique Jorge",
+    texto:
+      "Seriedade e profissionalismo em cada detalhe. Desde a recepção até a entrega do veículo, fui tratada com muito respeito. A DMCAR virou referência pra mim e para minha família!",
+  },
 ];
 
 function Depoimentos() {
@@ -527,14 +872,18 @@ function Depoimentos() {
       <div className="mx-auto max-w-7xl px-6">
         <Reveal className="text-center mb-14">
           <h2 className="font-display text-4xl md:text-5xl">O QUE NOSSOS CLIENTES DIZEM</h2>
-          <p className="mt-3 text-muted-foreground">Histórias reais de quem já realizou o sonho do carro novo com a DMCAR</p>
+          <p className="mt-3 text-muted-foreground">
+            Histórias reais de quem já realizou o sonho do carro novo com a DMCAR
+          </p>
         </Reveal>
         <div className="grid md:grid-cols-2 gap-6">
           {deps.map((d, i) => (
             <Reveal key={d.nome} delay={(i % 2) * 80}>
               <div className="card-vehicle h-full rounded-2xl bg-surface border border-border p-7">
                 <div className="flex items-center gap-1 mb-4 text-gold">
-                  {Array.from({ length: 5 }).map((_, k) => <Star key={k} className="w-4 h-4 fill-current" />)}
+                  {Array.from({ length: 5 }).map((_, k) => (
+                    <Star key={k} className="w-4 h-4 fill-current" />
+                  ))}
                 </div>
                 <p className="text-white/85 leading-relaxed italic">"{d.texto}"</p>
                 <div className="mt-5 pt-5 border-t border-border">
@@ -589,24 +938,44 @@ function Unidades() {
       <div className="mx-auto max-w-7xl px-6">
         <Reveal className="text-center mb-14">
           <h2 className="font-display text-4xl md:text-5xl">ONDE ESTAMOS</h2>
-          <p className="mt-3 text-muted-foreground">Duas lojas e uma oficina própria. Tudo para você ter a melhor experiência.</p>
+          <p className="mt-3 text-muted-foreground">
+            Duas lojas e uma oficina própria. Tudo para você ter a melhor experiência.
+          </p>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-6">
           {unidades.map((u, i) => (
             <Reveal key={u.tag} delay={i * 100}>
               <div className="card-vehicle h-full rounded-2xl bg-surface border-t-2 border-t-gold border border-border p-7 flex flex-col">
                 <div className="flex items-center justify-between mb-5">
-                  <span className="text-xs uppercase tracking-widest text-gold font-bold">{u.tag}</span>
+                  <span className="text-xs uppercase tracking-widest text-gold font-bold">
+                    {u.tag}
+                  </span>
                   <u.icon className="w-5 h-5 text-gold" />
                 </div>
                 <p className="text-sm text-white/85 leading-relaxed mb-4">{u.end}</p>
                 <div className="space-y-1.5 text-sm text-muted-foreground mb-6">
-                  <div className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-gold" /> {u.tel}</div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5 text-gold" /> {u.tel}
+                  </div>
                   <div className="text-xs">{u.hora}</div>
                 </div>
                 <div className="mt-auto flex flex-col gap-2">
-                  <a href={u.maps} target="_blank" rel="noopener noreferrer" className="btn-primary rounded-full px-4 py-2.5 text-xs text-center">Como Chegar</a>
-                  <a href={u.wa} target="_blank" rel="noopener noreferrer" className="btn-outline rounded-full px-4 py-2.5 text-xs text-center">{u.waLabel}</a>
+                  <a
+                    href={u.maps}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary rounded-full px-4 py-2.5 text-xs text-center"
+                  >
+                    Como Chegar
+                  </a>
+                  <a
+                    href={u.wa}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-outline rounded-full px-4 py-2.5 text-xs text-center"
+                  >
+                    {u.waLabel}
+                  </a>
                 </div>
               </div>
             </Reveal>
@@ -614,8 +983,12 @@ function Unidades() {
         </div>
 
         <Reveal className="mt-12 text-center space-y-1.5 text-sm text-white/80">
-          <div className="flex items-center justify-center gap-2"><Mail className="w-4 h-4 text-gold" /> dmcaroficina@hotmail.com</div>
-          <div className="flex items-center justify-center gap-2"><Mail className="w-4 h-4 text-gold" /> consultoresdmcarveiculos@gmail.com</div>
+          <div className="flex items-center justify-center gap-2">
+            <Mail className="w-4 h-4 text-gold" /> dmcaroficina@hotmail.com
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <Mail className="w-4 h-4 text-gold" /> consultoresdmcarveiculos@gmail.com
+          </div>
         </Reveal>
 
         <Reveal className="mt-10">

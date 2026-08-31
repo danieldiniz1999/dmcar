@@ -1,26 +1,32 @@
 # DMCAR
 
-.
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://dmcar.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/1ac273c2-1af2-47d7-b060-822da6bbb27c).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+Site da DMCAR Veiculos Multimarcas, desenvolvido com React, TanStack Start,
+Vite e Supabase e preparado para deploy na Vercel.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Use Node.js e npm para executar o projeto localmente.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+git clone https://github.com/danieldiniz1999/dmcar.git
+cd dmcar
+npm install
 npm run dev
 ```
+
+## Deploy na Vercel
+
+Importe este repositorio na Vercel e selecione o preset **TanStack Start**.
+O build usa `npm run build` e Nitro gera automaticamente a saida para a Vercel.
+
+Configure as seguintes variaveis em Production, Preview e Development:
+
+- `SUPABASE_URL`
+- `SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+- `VITE_SUPABASE_PROJECT_ID`
+
+As variaveis com prefixo `VITE_` sao publicas no navegador. Nunca use o valor da
+service role em uma variavel `VITE_*`.
