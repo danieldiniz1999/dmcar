@@ -33,9 +33,9 @@ import heroCar from "@/assets/hero-car.webp";
 import carSedan from "@/assets/car-sedan.webp";
 import carSuv from "@/assets/car-suv.webp";
 import carHatch from "@/assets/car-hatch.webp";
-import italoFoto from "@/assets/italo.jpg.asset.json";
-import wallysonFoto from "@/assets/wallyson.jpg.asset.json";
-import keslleyFoto from "@/assets/keslley.jpg.asset.json";
+import italoFoto from "@/assets/italo.jpg";
+import wallysonFoto from "@/assets/wallyson.jpg";
+import keslleyFoto from "@/assets/keslley.jpg";
 
 type CarRow = Database["public"]["Tables"]["cars"]["Row"];
 
@@ -683,17 +683,17 @@ function Missao() {
 
 function Consultores() {
   const list = [
-    { nome: "Ítalo", link: WA_ITALO, foto: italoFoto.url as string | null, pos: "center 20%" },
+    { nome: "Ítalo", link: WA_ITALO, foto: italoFoto, pos: "center 20%" },
     {
       nome: "Wallyson",
       link: WA_WALLYSON,
-      foto: wallysonFoto.url as string | null,
+      foto: wallysonFoto,
       pos: "center 20%",
     },
     {
       nome: "Keslley",
       link: WA_KESLLEY as string | null,
-      foto: keslleyFoto.url as string | null,
+      foto: keslleyFoto,
       pos: "center 12%",
     },
   ];
