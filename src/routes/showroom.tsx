@@ -26,6 +26,11 @@ export const Route = createFileRoute("/showroom")({
       { property: "og:description", content: "Veículos seminovos à pronta entrega em Fortaleza." },
       { property: "og:url", content: "https://dmcar.site/showroom" },
       { property: "og:type", content: "website" },
+      { name: "twitter:title", content: "Showroom | DMCAR Veículos Multimarcas" },
+      {
+        name: "twitter:description",
+        content: "Confira os seminovos disponíveis na DMCAR em Fortaleza.",
+      },
     ],
     links: [{ rel: "canonical", href: "https://dmcar.site/showroom" }],
   }),

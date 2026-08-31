@@ -69,6 +69,12 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:url", content: "https://dmcar.site/" },
       { property: "og:type", content: "website" },
+      { name: "twitter:title", content: "DMCAR Veículos Multimarcas | Seminovos em Fortaleza" },
+      {
+        name: "twitter:description",
+        content:
+          "Mais de 3.000 veículos vendidos, duas lojas e oficina própria. Seu próximo carro é aqui.",
+      },
     ],
     links: [
       { rel: "canonical", href: "https://dmcar.site/" },

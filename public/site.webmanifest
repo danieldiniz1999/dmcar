@@ -1,0 +1,18 @@
+{
+  "name": "DMCAR Veículos Multimarcas",
+  "short_name": "DMCAR",
+  "description": "Seminovos selecionados em Fortaleza.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "225x225",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

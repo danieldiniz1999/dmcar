@@ -62,26 +62,92 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const orgJsonLd = {
+const seoJsonLd = {
   "@context": "https://schema.org",
-  "@type": "AutoDealer",
-  name: "DMCAR Veículos Multimarcas",
-  legalName: "PARCELA JUSTA COMÉRCIO DE VEÍCULOS LTDA",
-  url: "https://dmcar.site",
-  description:
-    "Referência em seminovos em Fortaleza/CE com mais de 3.000 veículos vendidos, 2 lojas e oficina própria.",
-  telephone: "+55-85-98719-8049",
-  email: "consultoresdmcarveiculos@gmail.com",
-  foundingDate: "2014",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Av. Mister Hull, 4971",
-    addressLocality: "Fortaleza",
-    addressRegion: "CE",
-    postalCode: "60356-675",
-    addressCountry: "BR",
-  },
-  sameAs: ["https://www.instagram.com/dmcarveiculos"],
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://dmcar.site/#website",
+      url: "https://dmcar.site/",
+      name: "DMCAR Veículos Multimarcas",
+      description: "Seminovos selecionados em Fortaleza, com financiamento facilitado e garantia.",
+      inLanguage: "pt-BR",
+      publisher: { "@id": "https://dmcar.site/#organization" },
+    },
+    {
+      "@type": "AutoDealer",
+      "@id": "https://dmcar.site/#organization",
+      name: "DMCAR Veículos Multimarcas",
+      legalName: "PARCELA JUSTA COMÉRCIO DE VEÍCULOS LTDA",
+      taxID: "32.101.023/0001-89",
+      url: "https://dmcar.site/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://dmcar.site/logo.png",
+        width: 225,
+        height: 225,
+      },
+      image: "https://dmcar.site/og-image.jpg",
+      description:
+        "Referência em seminovos em Fortaleza/CE com mais de 3.000 veículos vendidos, duas lojas e oficina própria.",
+      telephone: "+55-85-98884-9957",
+      email: "consultoresdmcarveiculos@gmail.com",
+      foundingDate: "2014",
+      priceRange: "$$",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Av. Mister Hull, 4971",
+        addressLocality: "Fortaleza",
+        addressRegion: "CE",
+        postalCode: "60356-675",
+        addressCountry: "BR",
+      },
+      areaServed: { "@type": "City", name: "Fortaleza" },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "08:00",
+          closes: "18:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: "Saturday",
+          opens: "08:00",
+          closes: "13:00",
+        },
+      ],
+      department: [
+        {
+          "@type": "AutoDealer",
+          name: "DMCAR Veículos Multimarcas — Loja 1",
+          telephone: "+55-85-98884-9957",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Av. Mister Hull, 4971",
+            addressLocality: "Fortaleza",
+            addressRegion: "CE",
+            postalCode: "60356-675",
+            addressCountry: "BR",
+          },
+        },
+        {
+          "@type": "AutoDealer",
+          name: "DMCAR Veículos Multimarcas — Loja 2",
+          telephone: "+55-85-98884-9957",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Av. Mister Hull, 4940",
+            addressLocality: "Fortaleza",
+            addressRegion: "CE",
+            postalCode: "60356-415",
+            addressCountry: "BR",
+          },
+        },
+      ],
+      sameAs: ["https://www.instagram.com/dmcarveiculos"],
+    },
+  ],
 };
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -97,11 +163,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "A DMCAR é referência em seminovos em Fortaleza/CE. Mais de 3.000 veículos vendidos, 2 lojas, oficina própria e garantia de 90 dias.",
       },
       { name: "author", content: "DMCAR Veículos Multimarcas" },
-      { name: "robots", content: "index, follow" },
+      { name: "theme-color", content: "#0a0a0a" },
+      { name: "format-detection", content: "telephone=yes" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
       { property: "og:site_name", content: "DMCAR Veículos Multimarcas" },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
+      { property: "og:image", content: "https://dmcar.site/og-image.jpg" },
+      { property: "og:image:secure_url", content: "https://dmcar.site/og-image.jpg" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Logo da DMCAR Veículos Multimarcas" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://dmcar.site/og-image.jpg" },
+      { name: "twitter:image:alt", content: "Logo da DMCAR Veículos Multimarcas" },
       { property: "og:title", content: "DMCAR Veículos Multimarcas | Seminovos em Fortaleza" },
       { name: "twitter:title", content: "DMCAR Veículos Multimarcas | Seminovos em Fortaleza" },
       {
@@ -117,6 +196,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "apple-touch-icon", href: "/logo.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -130,7 +212,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap",
       },
     ],
-    scripts: [{ type: "application/ld+json", children: JSON.stringify(orgJsonLd) }],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(seoJsonLd) }],
   }),
   shellComponent: RootShell,
   component: RootComponent,

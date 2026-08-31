@@ -5,6 +5,7 @@ const BASE_URL = "https://dmcar.site";
 
 interface SitemapEntry {
   path: string;
+  lastmod: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
 }
@@ -14,15 +15,16 @@ export const Route = createFileRoute("/sitemap.xml")({
     handlers: {
       GET: async () => {
         const entries: SitemapEntry[] = [
-          { path: "/", changefreq: "weekly", priority: "1.0" },
-          { path: "/showroom", changefreq: "daily", priority: "0.9" },
-          { path: "/privacidade", changefreq: "yearly", priority: "0.3" },
+          { path: "/", lastmod: "2026-08-31", changefreq: "weekly", priority: "1.0" },
+          { path: "/showroom", lastmod: "2026-08-31", changefreq: "daily", priority: "0.9" },
+          { path: "/privacidade", lastmod: "2025-06-01", changefreq: "yearly", priority: "0.3" },
         ];
 
         const urls = entries.map((e) =>
           [
             `  <url>`,
             `    <loc>${BASE_URL}${e.path}</loc>`,
+            `    <lastmod>${e.lastmod}</lastmod>`,
             e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
             e.priority ? `    <priority>${e.priority}</priority>` : null,
             `  </url>`,
