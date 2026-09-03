@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { ArrowRight, Instagram, Globe } from "lucide-react";
+import { ArrowRight, Instagram, Globe, CarFront } from "lucide-react";
 import { Logo } from "@/components/dmcar/Logo";
 import keslleyFoto from "@/assets/keslley.jpg";
 import italoFoto from "@/assets/italo.jpg";
@@ -43,6 +43,13 @@ type LinkItem = {
 
 const items: LinkItem[] = [
   {
+    label: "Acessar o Showroom",
+    sub: "Confira nosso estoque de veículos",
+    href: "/showroom",
+    icon: (p) => <CarFront {...p} />,
+  },
+  { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
+  {
     label: "Consultor Ítalo",
     sub: "WhatsApp",
     href: "https://wa.me/5585989154419?text=Ol%C3%A1%20%C3%8Dtalo%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20conhecer%20os%20ve%C3%ADculos%20dispon%C3%ADveis%21",
@@ -73,6 +80,21 @@ const items: LinkItem[] = [
     photoPos: "center 12%",
   },
   {
+    label: "Compra e Avaliação de Carros",
+    sub: "Vender meu veículo para a DMCAR",
+    href: "https://wa.me/5585987198049?text=Ol%C3%A1%21%20Venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20tenho%20um%20ve%C3%ADculo%20que%20gostaria%20de%20oferecer%20para%20avalia%C3%A7%C3%A3o%20e%20poss%C3%ADvel%20venda.%20Podemos%20conversar%3F",
+    primary: true,
+    icon: WhatsAppIcon,
+    external: true,
+  },
+  {
+    label: "Instagram da DMCAR",
+    sub: "@dmcarveiculos",
+    href: "https://www.instagram.com/dmcarveiculos",
+    icon: (p) => <Instagram {...p} />,
+    external: true,
+  },
+  {
     label: "WhatsApp — Loja 1",
     sub: "Av. Mister Hull, 4971",
     href: "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20gostaria%20de%20falar%20com%20a%20Loja%201%21",
@@ -86,22 +108,6 @@ const items: LinkItem[] = [
     icon: WhatsAppIcon,
     external: true,
   },
-  {
-    label: "Compra e Avaliação de Carros",
-    sub: "Vender meu veículo para a DMCAR",
-    href: "https://wa.me/5585987198049?text=Ol%C3%A1%21%20Venho%20pelo%20link%20do%20site%20da%20DMCAR%20e%20tenho%20um%20ve%C3%ADculo%20que%20gostaria%20de%20oferecer%20para%20avalia%C3%A7%C3%A3o%20e%20poss%C3%ADvel%20venda.%20Podemos%20conversar%3F",
-    primary: true,
-    icon: WhatsAppIcon,
-    external: true,
-  },
-  { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
-  {
-    label: "Instagram da DMCAR",
-    sub: "@dmcarveiculos",
-    href: "https://www.instagram.com/dmcarveiculos",
-    icon: (p) => <Instagram {...p} />,
-    external: true,
-  },
 ];
 
 function LinksPage() {
@@ -113,7 +119,7 @@ function LinksPage() {
       }}
     >
       <Particles />
-      <div className="relative mx-auto max-w-md px-6 py-14 flex flex-col items-center">
+      <div className="relative mx-auto w-full max-w-md px-4 min-[375px]:px-6 py-14 flex flex-col items-center">
         <div
           className="logo-pulse"
           style={{ filter: "drop-shadow(0 0 24px rgba(245,197,24,0.45))" }}
@@ -142,6 +148,7 @@ function LinksPage() {
           <div className="mt-3 flex items-center justify-center gap-3">
             <a
               href="https://www.instagram.com/dmcarveiculos"
+              aria-label="Instagram da DMCAR"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-gold"
@@ -174,7 +181,7 @@ function LinkButton({ item }: { item: LinkItem }) {
       ) : (
         <item.icon className={iconCls} />
       )}
-      <div className="flex-1 text-left">
+      <div className="min-w-0 flex-1 text-left break-words">
         <div className="font-semibold text-sm">{item.label}</div>
         {item.sub && <div className="text-[11px] opacity-70">{item.sub}</div>}
       </div>
@@ -183,12 +190,24 @@ function LinkButton({ item }: { item: LinkItem }) {
   );
   if (item.external) {
     return (
-      <a href={item.href} target="_blank" rel="noopener noreferrer">
+      <a
+        className="block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {Inner}
       </a>
     );
   }
-  return <Link to={item.href as "/"}>{Inner}</Link>;
+  return (
+    <Link
+      className="block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+      to={item.href as "/" | "/showroom"}
+    >
+      {Inner}
+    </Link>
+  );
 }
 
 function Particles() {

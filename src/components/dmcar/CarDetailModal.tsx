@@ -23,12 +23,18 @@ type Props = {
 };
 
 function brl(n: number) {
-  return Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+  return Number(n).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0,
+  });
 }
 
 export function CarDetailModal({ car, images, onClose, whatsappBase }: Props) {
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
     window.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -39,14 +45,14 @@ export function CarDetailModal({ car, images, onClose, whatsappBase }: Props) {
   }, [onClose]);
 
   const waHref = `${whatsappBase.split("?")[0]}?text=${encodeURIComponent(
-    `Olá, tenho interesse no ${car.marca} ${car.modelo} ${car.ano}!`
+    `Olá, tenho interesse no ${car.marca} ${car.modelo} ${car.ano}!`,
   )}`;
 
   const safeImages = images.length > 0 ? images : [undefined];
 
   const content = (
     <div
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm overflow-y-auto overscroll-contain"
+      className="fixed inset-0 z-[10000] bg-black/95 backdrop-blur-sm overflow-y-auto overscroll-contain"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -65,8 +71,8 @@ export function CarDetailModal({ car, images, onClose, whatsappBase }: Props) {
         className="min-h-full mx-auto max-w-6xl md:p-6 md:py-14"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="md:rounded-2xl overflow-hidden md:border md:border-border bg-surface flex flex-col md:grid md:grid-cols-5">
-          <div className="md:col-span-3 bg-black">
+        <div className="md:rounded-2xl overflow-hidden md:border md:border-border bg-surface flex flex-col lg:grid lg:grid-cols-5">
+          <div className="min-w-0 lg:col-span-3 bg-black">
             <CarGallery
               images={safeImages}
               alt={`${car.marca} ${car.modelo}`}
@@ -76,21 +82,33 @@ export function CarDetailModal({ car, images, onClose, whatsappBase }: Props) {
             />
           </div>
 
-          <div className="md:col-span-2 p-6 md:p-8 flex flex-col">
-            <div className="text-xs text-muted-foreground uppercase tracking-widest">{car.marca}</div>
+          <div className="min-w-0 break-words lg:col-span-2 p-4 sm:p-6 md:p-8 flex flex-col">
+            <div className="text-xs text-muted-foreground uppercase tracking-widest">
+              {car.marca}
+            </div>
             <h2 className="font-display text-2xl md:text-3xl mt-1 mb-1">{car.modelo}</h2>
             <div className="text-sm text-muted-foreground mb-5">Ano {car.ano}</div>
 
             <div className="grid grid-cols-2 gap-3 text-sm text-white/85 mb-6">
-              <span className="flex items-center gap-2"><Calendar className="w-4 h-4 text-gold" /> {car.ano}</span>
-              <span className="flex items-center gap-2"><Gauge className="w-4 h-4 text-gold" /> {car.km.toLocaleString("pt-BR")} km</span>
-              <span className="flex items-center gap-2"><Cog className="w-4 h-4 text-gold" /> {car.cambio}</span>
-              <span className="flex items-center gap-2"><Palette className="w-4 h-4 text-gold" /> {car.cor}</span>
+              <span className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-gold" /> {car.ano}
+              </span>
+              <span className="flex items-center gap-2">
+                <Gauge className="w-4 h-4 text-gold" /> {car.km.toLocaleString("pt-BR")} km
+              </span>
+              <span className="flex items-center gap-2">
+                <Cog className="w-4 h-4 text-gold" /> {car.cambio}
+              </span>
+              <span className="flex items-center gap-2">
+                <Palette className="w-4 h-4 text-gold" /> {car.cor}
+              </span>
             </div>
 
             <div className="rounded-xl border border-gold/30 bg-gold/5 p-4 mb-6">
               <div className="text-[10px] uppercase tracking-widest text-gold mb-1">Preço</div>
-              <div className="font-mono-d text-3xl md:text-4xl text-gold font-bold">{brl(car.preco)}</div>
+              <div className="font-mono-d text-2xl min-[375px]:text-3xl xl:text-4xl text-gold font-bold">
+                {brl(car.preco)}
+              </div>
             </div>
 
             <a

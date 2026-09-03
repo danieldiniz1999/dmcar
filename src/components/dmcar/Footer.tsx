@@ -5,7 +5,7 @@ const WA = "https://wa.me/5585988849957?text=Ol%C3%A1%2C%20venho%20pelo%20link%2
 
 export function Footer() {
   return (
-    <footer className="bg-[#070707] border-t-2 border-gold">
+    <footer className="bg-[#070707] border-t-2 border-gold [overflow-wrap:anywhere]">
       <div className="mx-auto max-w-7xl px-6 py-20 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="font-display text-4xl text-gold mb-3">DMCAR</div>

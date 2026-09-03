@@ -45,12 +45,14 @@ export function CarGallery({
   }, []);
 
   return (
-    <div className={`relative bg-black overflow-hidden group ${rounded ? "rounded-2xl" : ""} ${className}`}>
+    <div
+      className={`relative bg-black overflow-hidden group ${rounded ? "rounded-2xl" : ""} ${className}`}
+    >
       <div
         ref={ref}
         onScroll={onScroll}
         className="flex h-full w-full overflow-x-auto snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        style={{ touchAction: "pan-y pinch-zoom" }}
+        style={{ touchAction: "pan-x pan-y pinch-zoom" }}
       >
         {images.map((src, i) => (
           <div key={i} className="flex-shrink-0 w-full h-full snap-center relative">
@@ -65,7 +67,9 @@ export function CarGallery({
                 className={`w-full h-full object-cover ${onImageClick ? "cursor-zoom-in" : ""}`}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
+              <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">
+                Sem foto
+              </div>
             )}
           </div>
         ))}
@@ -76,7 +80,10 @@ export function CarGallery({
           <button
             type="button"
             aria-label="Foto anterior"
-            onClick={(e) => { e.stopPropagation(); scrollTo(Math.max(0, idx - 1)); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              scrollTo(Math.max(0, idx - 1));
+            }}
             disabled={idx === 0}
             className={`absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-sm transition-opacity disabled:opacity-30 disabled:cursor-default ${showArrowsAlways ? "opacity-100" : "opacity-0 group-hover:opacity-100 md:opacity-0"}`}
           >
@@ -85,7 +92,10 @@ export function CarGallery({
           <button
             type="button"
             aria-label="Próxima foto"
-            onClick={(e) => { e.stopPropagation(); scrollTo(Math.min(count - 1, idx + 1)); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              scrollTo(Math.min(count - 1, idx + 1));
+            }}
             disabled={idx === count - 1}
             className={`absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-sm transition-opacity disabled:opacity-30 disabled:cursor-default ${showArrowsAlways ? "opacity-100" : "opacity-0 group-hover:opacity-100 md:opacity-0"}`}
           >
@@ -102,7 +112,10 @@ export function CarGallery({
                 key={i}
                 type="button"
                 aria-label={`Ir para foto ${i + 1}`}
-                onClick={(e) => { e.stopPropagation(); scrollTo(i); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  scrollTo(i);
+                }}
                 className={`h-1.5 rounded-full transition-all ${i === idx ? "w-5 bg-gold" : "w-1.5 bg-white/50 hover:bg-white/80"}`}
               />
             ))}

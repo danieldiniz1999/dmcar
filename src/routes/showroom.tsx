@@ -154,10 +154,10 @@ function ShowroomPage() {
 
       <section className="border-b border-border bg-[#0F0F0F] py-14">
         <div className="mx-auto max-w-7xl px-6 text-center">
-          <h1 className="font-display text-5xl md:text-6xl">NOSSO SHOWROOM</h1>
+          <h1 className="font-display text-4xl min-[375px]:text-5xl md:text-6xl">NOSSO SHOWROOM</h1>
           <p className="mt-3 text-muted-foreground">Veículos à pronta entrega. Encontre o seu.</p>
 
-          <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto">
+          <div className="mt-8 grid grid-cols-1 min-[375px]:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto">
             <Select value={marca} onChange={setMarca} options={marcas} label="Marca" />
             <Select value={ano} onChange={setAno} options={anos} label="Ano" />
             <Select
@@ -190,7 +190,7 @@ function ShowroomPage() {
                 {filtered.slice(0, visible).map((v, i) => {
                   const imgs = images[v.id] ?? [];
                   return (
-                    <Reveal key={v.id} delay={(i % 3) * 80}>
+                    <Reveal key={v.id} delay={(i % 3) * 80} className="min-w-0">
                       <article className="card-vehicle h-full rounded-2xl bg-surface border border-border overflow-hidden flex flex-col">
                         <div className="relative">
                           <CarGallery
@@ -204,7 +204,7 @@ function ShowroomPage() {
                             </span>
                           )}
                         </div>
-                        <div className="p-6 flex-1 flex flex-col">
+                        <div className="p-4 sm:p-6 min-w-0 break-words flex-1 flex flex-col">
                           <div className="text-xs text-muted-foreground uppercase tracking-wider">
                             {v.marca}
                           </div>
@@ -231,7 +231,7 @@ function ShowroomPage() {
                             <button
                               type="button"
                               onClick={() => setOpenId(v.id)}
-                              className="flex-1 btn-outline rounded-full px-4 py-2.5 text-xs text-center"
+                              className="min-w-0 min-h-11 flex-1 btn-outline rounded-full px-3 sm:px-4 py-2.5 text-xs text-center"
                             >
                               Ver Detalhes
                             </button>
@@ -239,7 +239,7 @@ function ShowroomPage() {
                               href={`${WA_LOJA.split("?")[0]}?text=${encodeURIComponent(`Olá, tenho interesse no ${v.marca} ${v.modelo} ${v.ano}!`)}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex-1 btn-primary rounded-full px-4 py-2.5 text-xs text-center"
+                              className="min-w-0 min-h-11 flex-1 btn-primary rounded-full px-3 sm:px-4 py-2.5 text-xs text-center flex items-center justify-center"
                             >
                               Tenho Interesse
                             </a>
@@ -310,14 +310,14 @@ function Select({
   label: string;
 }) {
   return (
-    <label className="block text-left">
+    <label className="block min-w-0 text-left">
       <span className="block text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">
         {label}
       </span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-lg bg-[#141414] border border-border px-4 py-3 text-sm text-white focus:outline-none focus:border-gold transition-colors"
+        className="w-full min-w-0 max-w-full rounded-lg bg-[#141414] border border-border px-2 sm:px-4 py-3 text-base sm:text-sm text-white focus:outline-none focus:border-gold transition-colors"
       >
         {options.map((o) => (
           <option key={o} value={o}>
