@@ -43,12 +43,12 @@ type LinkItem = {
 
 const items: LinkItem[] = [
   {
-    label: "Acessar o Showroom",
+    label: "Showroom",
     sub: "Confira nosso estoque de veículos",
     href: "/showroom",
     icon: (p) => <CarFront {...p} />,
   },
-  { label: "Acessar o Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
+  { label: "Site", sub: "dmcar.site", href: "/", icon: (p) => <Globe {...p} /> },
   {
     label: "Consultor Ítalo",
     sub: "WhatsApp",
