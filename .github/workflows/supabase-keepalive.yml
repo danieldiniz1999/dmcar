@@ -1,0 +1,37 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  query:
+    name: Read existing row
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Query Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --output /dev/null \
+            --connect-timeout 5 \
+            --max-time 20 \
+            --retry 3 \
+            --retry-delay 5 \
+            --retry-max-time 75 \
+            --retry-all-errors \
+            --get \
+            --header "apikey: ${SUPABASE_ANON_KEY}" \
+            --data-urlencode "select=id" \
+            --data-urlencode "limit=1" \
+            "${SUPABASE_URL}/rest/v1/cars"
