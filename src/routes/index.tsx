@@ -315,7 +315,7 @@ function Estoque() {
     (async () => {
       const { data } = await supabase
         .from("cars")
-        .select("id,marca,modelo,ano,km,cambio,cor,preco,destaque,fotos")
+        .select("id,marca,modelo,ano,km,cambio,cor,preco,descricao,destaque,fotos")
         .eq("vendido", false)
         .order("destaque", { ascending: false })
         .order("created_at", { ascending: false })
@@ -534,6 +534,7 @@ function Estoque() {
             cambio: openCar.cambio,
             cor: openCar.cor,
             preco: Number(openCar.preco),
+            descricao: openCar.descricao,
             destaque: openCar.destaque,
           }}
           images={images[openCar.id] ?? []}

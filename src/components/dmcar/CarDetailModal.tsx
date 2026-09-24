@@ -12,6 +12,7 @@ export type CarLike = {
   cambio: string;
   cor: string;
   preco: number;
+  descricao?: string | null;
   destaque?: boolean;
 };
 
@@ -103,6 +104,17 @@ export function CarDetailModal({ car, images, onClose, whatsappBase }: Props) {
                 <Palette className="w-4 h-4 text-gold" /> {car.cor}
               </span>
             </div>
+
+            {car.descricao?.trim() && (
+              <div className="mb-6">
+                <div className="text-[10px] uppercase tracking-widest text-gold mb-2">
+                  Descrição
+                </div>
+                <p className="whitespace-pre-line text-sm leading-relaxed text-white/80">
+                  {car.descricao.trim()}
+                </p>
+              </div>
+            )}
 
             <div className="rounded-xl border border-gold/30 bg-gold/5 p-4 mb-6">
               <div className="text-[10px] uppercase tracking-widest text-gold mb-1">Preço</div>

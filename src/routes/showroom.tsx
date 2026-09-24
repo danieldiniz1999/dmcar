@@ -63,7 +63,9 @@ function ShowroomPage() {
     (async () => {
       const { data } = await supabase
         .from("cars")
-        .select("id,marca,modelo,ano,km,cambio,cor,preco,destaque,fotos,created_at,vendido")
+        .select(
+          "id,marca,modelo,ano,km,cambio,cor,preco,descricao,destaque,fotos,created_at,vendido",
+        )
         .eq("vendido", false)
         .order("destaque", { ascending: false })
         .order("created_at", { ascending: false });
@@ -283,6 +285,7 @@ function ShowroomPage() {
             cambio: openCar.cambio,
             cor: openCar.cor,
             preco: Number(openCar.preco),
+            descricao: openCar.descricao,
             destaque: openCar.destaque,
           }}
           images={images[openCar.id] ?? []}
