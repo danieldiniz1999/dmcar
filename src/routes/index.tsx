@@ -1,3 +1,4 @@
+import { signCarPhotos } from "@/lib/car-photos.functions";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
@@ -352,11 +353,9 @@ function Estoque() {
       }
 
       if (uncachedPaths.length) {
-        const { data: signedList } = await supabase.storage
-          .from("car-images")
-          .createSignedUrls(uncachedPaths, 60 * 60 * 24);
-        signedList?.forEach((s, idx) => {
-          const path = uncachedPaths[idx];
+        const signedList = await signCarPhotos({ data: { paths: uncachedPaths } }).catch(() => []);
+        signedList.forEach((s) => {
+          const path = s.path;
           if (!s?.signedUrl || !path) return;
           try {
             localStorage.setItem(

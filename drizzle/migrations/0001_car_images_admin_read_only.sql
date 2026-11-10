@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "read images of listed cars" ON storage.objects;
